@@ -28,7 +28,7 @@ public:
     Matrix4f& invert();
     Matrix4f& removeTranslation();
     float * toFloatBuffer() const;
-    const char* toString();
+    std::string toString();
 public:
     float m00 = 0.0f;
     float m01 = 0.0f;

@@ -714,11 +714,11 @@ float * Matrix4f::toFloatBuffer() const {
     return new float[16] {m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, m30, m31, m32, m33};
 }
 
-const char* Matrix4f::toString(){
+std::string Matrix4f::toString(){
     std::stringstream ss;
     ss << m00 << " : " << m10 << " : " << m20 << " : " << m30 << "\n"
        << m01 << " : " << m11 << " : " << m21 << " : " << m31 << "\n"
        << m02 << " : " << m12 << " : " << m22 << " : " << m32 << "\n"
        << m03 << " : " << m13 << " : " << m23 << " : " << m33 << "";
-    return ss.str().c_str();
+    return ss.str();
 }
