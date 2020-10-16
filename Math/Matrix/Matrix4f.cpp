@@ -18,6 +18,7 @@ Matrix4f& Matrix4f::identity() {
     m31 = 0.0f;
     m32 = 0.0f;
     m33 = 1.0f;
+    updateBuffer();
     return *this;
 }
 
@@ -39,6 +40,7 @@ Matrix4f matrix::identity(){
     matrix.m31 = 0.0f;
     matrix.m32 = 0.0f;
     matrix.m33 = 1.0f;
+    matrix.updateBuffer();
     return matrix;
 }
 
@@ -51,6 +53,7 @@ Matrix4f& Matrix4f::perspective(float fov, float width, float height, float near
     m22 = far / (near - far);
     m23 = -1.0f;
     m32 = -(far * near) / (far - near);
+    updateBuffer();
     return *this;
 }
 
@@ -65,6 +68,7 @@ Matrix4f& matrix::perspective(Matrix4f& matrix, float fov, float width, float he
     matrix.m23 = -1;
     matrix.m32 = -((2 * near * far) / frustum_length);
     matrix.m33 = 0;
+    matrix.updateBuffer();
     return matrix;
 }
 
@@ -112,6 +116,7 @@ Matrix4f& Matrix4f::rotate(float angle, const Vector3f& axis, const Matrix4f& fr
     m21 = e10;
     m22 = e11;
     m23 = e12;
+    updateBuffer();
     return *this;
 }
 
@@ -159,6 +164,7 @@ Matrix4f& Matrix4f::rotate(float angle, float x, float y, float z, const Matrix4
     m21 = e10;
     m22 = e11;
     m23 = e12;
+    updateBuffer();
     return *this;
 }
 
@@ -206,6 +212,7 @@ Matrix4f& Matrix4f::rotate(float angle, float x, float y, float z) {
     m21 = e10;
     m22 = e11;
     m23 = e12;
+    updateBuffer();
     return *this;
 }
 
@@ -253,6 +260,7 @@ Matrix4f& matrix::rotate(Matrix4f& matrix, float angle, const Vector3f& axis, co
     matrix.m21 = e10;
     matrix.m22 = e11;
     matrix.m23 = e12;
+    matrix.updateBuffer();
     return matrix;
 }
 
@@ -269,6 +277,7 @@ Matrix4f& Matrix4f::scale(float scale) {
     m21 *= scale;
     m22 *= scale;
     m23 *= scale;
+    updateBuffer();
     return *this;
 }
 
@@ -285,6 +294,7 @@ Matrix4f& Matrix4f::scale(const Vector3f& scale) {
     m21 *= scale.z;
     m22 *= scale.z;
     m23 *= scale.z;
+    updateBuffer();
     return *this;
 }
 
@@ -301,6 +311,7 @@ Matrix4f& Matrix4f::scale(float x, float y, float z) {
     m21 *= z;
     m22 *= z;
     m23 *= z;
+    updateBuffer();
     return *this;
 }
 
@@ -317,6 +328,7 @@ Matrix4f& Matrix4f::scale(const Vector3f& scale, const Matrix4f& from) {
     m21 = from.m21 * scale.z;
     m22 = from.m22 * scale.z;
     m23 = from.m23 * scale.z;
+    updateBuffer();
     return *this;
 }
 
@@ -333,6 +345,7 @@ Matrix4f& matrix::scale(Matrix4f& matrix, const Vector3f& scale, const Matrix4f&
     matrix.m21 = from.m21 * scale.z;
     matrix.m22 = from.m22 * scale.z;
     matrix.m23 = from.m23 * scale.z;
+    matrix.updateBuffer();
     return matrix;
 }
 
@@ -349,6 +362,7 @@ Matrix4f& matrix::scale(Matrix4f& matrix, float scale, const Matrix4f& from) {
     matrix.m21 = from.m21 * scale;
     matrix.m22 = from.m22 * scale;
     matrix.m23 = from.m23 * scale;
+    matrix.updateBuffer();
     return matrix;
 }
 
@@ -357,14 +371,16 @@ Matrix4f& Matrix4f::translate(const Vector3f& vector, const Matrix4f& from) {
     m31 = from.m01 * vector.x + from.m11 * vector.y + from.m21 * vector.z + from.m31;
     m32 = from.m02 * vector.x + from.m12 * vector.y + from.m22 * vector.z + from.m32;
     m33 = from.m03 * vector.x + from.m13 * vector.y + from.m23 * vector.z + from.m33;
+    updateBuffer();
     return *this;
 }
 
 Matrix4f& Matrix4f::translate(float x, float y, float z, const Matrix4f& from) {
-    m30 = from.m00 * x + from.m10 * y + from.m20 * z + from.m30;
-    m31 = from.m01 * x + from.m11 * y + from.m21 * z + from.m31;
-    m32 = from.m02 * x + from.m12 * y + from.m22 * z + from.m32;
-    m33 = from.m03 * x + from.m13 * y + from.m23 * z + from.m33;
+    m30 += from.m00 * x + from.m10 * y + from.m20 * z + from.m30;
+    m31 += from.m01 * x + from.m11 * y + from.m21 * z + from.m31;
+    m32 += from.m02 * x + from.m12 * y + from.m22 * z + from.m32;
+    m33 += from.m03 * x + from.m13 * y + from.m23 * z + from.m33;
+    updateBuffer();
     return *this;
 }
 
@@ -373,22 +389,25 @@ Matrix4f& Matrix4f::translate(float x, float y, float z) {
     m31 += m01 * x + m11 * y + m21 * z;
     m32 += m02 * x + m12 * y + m22 * z;
     m33 += m03 * x + m13 * y + m23 * z;
+    updateBuffer();
     return *this;
 }
 
 Matrix4f& matrix::translate(Matrix4f& matrix, const Vector3f& vector, const Matrix4f& from) {
-    matrix.m30 = from.m00 * vector.x + from.m10 * vector.y + from.m20 * vector.z + from.m30;
-    matrix.m31 = from.m01 * vector.x + from.m11 * vector.y + from.m21 * vector.z + from.m31;
-    matrix.m32 = from.m02 * vector.x + from.m12 * vector.y + from.m22 * vector.z + from.m32;
-    matrix.m33 = from.m03 * vector.x + from.m13 * vector.y + from.m23 * vector.z + from.m33;
+    matrix.m30 += from.m00 * vector.x + from.m10 * vector.y + from.m20 * vector.z + from.m30;
+    matrix.m31 += from.m01 * vector.x + from.m11 * vector.y + from.m21 * vector.z + from.m31;
+    matrix.m32 += from.m02 * vector.x + from.m12 * vector.y + from.m22 * vector.z + from.m32;
+    matrix.m33 += from.m03 * vector.x + from.m13 * vector.y + from.m23 * vector.z + from.m33;
+    matrix.updateBuffer();
     return matrix;
 }
 
 Matrix4f& matrix::translate(Matrix4f& matrix, float x, float y, float z, const Matrix4f& from) {
-    matrix.m30 = from.m00 * x + from.m10 * y + from.m20 * z + from.m30;
-    matrix.m31 = from.m01 * x + from.m11 * y + from.m21 * z + from.m31;
-    matrix.m32 = from.m02 * x + from.m12 * y + from.m22 * z + from.m32;
-    matrix.m33 = from.m03 * x + from.m13 * y + from.m23 * z + from.m33;
+    matrix.m30 += from.m00 * x + from.m10 * y + from.m20 * z + from.m30;
+    matrix.m31 += from.m01 * x + from.m11 * y + from.m21 * z + from.m31;
+    matrix.m32 += from.m02 * x + from.m12 * y + from.m22 * z + from.m32;
+    matrix.m33 += from.m03 * x + from.m13 * y + from.m23 * z + from.m33;
+    matrix.updateBuffer();
     return matrix;
 }
 
@@ -410,6 +429,7 @@ Matrix4f& Matrix4f::lookAt(const Vector3f& eye, const Vector3f& center, const Ve
     m30 =-dot(s, eye);
     m31 =-dot(u, eye);
     m32 = dot(f, eye);
+    updateBuffer();
     return *this;
 }
 
@@ -421,6 +441,7 @@ Matrix4f& Matrix4f::orthographic(float left, float right, float bottom, float to
     m30 = (left + right) / (left - right);
     m31 = (bottom + top) / (bottom - top);
     m32 = (far + near) / (far - near);
+    updateBuffer();
     return *this;
 }
 
@@ -432,6 +453,7 @@ Matrix4f& matrix::orthographic(Matrix4f& matrix, float left, float right, float 
     matrix.m30 = (right + left) / (right - left);
     matrix.m31 = (top + bottom) / (top - bottom);
     matrix.m32 = (far + near) / (far - near);
+    matrix.updateBuffer();
     return matrix;
 }
 
@@ -452,6 +474,7 @@ Matrix4f& Matrix4f::multiply(const Matrix4f& one, const Matrix4f& two) {
     m31 = one.m01 * two.m30 + one.m11 * two.m31 + one.m21 * two.m32 + one.m31 * two.m33;
     m32 = one.m02 * two.m30 + one.m12 * two.m31 + one.m22 * two.m32 + one.m32 * two.m33;
     m33 = one.m03 * two.m30 + one.m13 * two.m31 + one.m23 * two.m32 + one.m33 * two.m33;
+    updateBuffer();
     return *this;
 }
 
@@ -473,6 +496,7 @@ Matrix4f matrix::multiply(const Matrix4f& one, const Matrix4f& two) {
     matrix.m31 = one.m01 * two.m30 + one.m11 * two.m31 + one.m21 * two.m32 + one.m31 * two.m33;
     matrix.m32 = one.m02 * two.m30 + one.m12 * two.m31 + one.m22 * two.m32 + one.m32 * two.m33;
     matrix.m33 = one.m03 * two.m30 + one.m13 * two.m31 + one.m23 * two.m32 + one.m33 * two.m33;
+    matrix.updateBuffer();
     return matrix;
 }
 
@@ -493,6 +517,7 @@ Matrix4f& matrix::multiply(Matrix4f& matrix, const Matrix4f& one, const Matrix4f
     matrix.m31 = one.m01 * two.m30 + one.m11 * two.m31 + one.m21 * two.m32 + one.m31 * two.m33;
     matrix.m32 = one.m02 * two.m30 + one.m12 * two.m31 + one.m22 * two.m32 + one.m32 * two.m33;
     matrix.m33 = one.m03 * two.m30 + one.m13 * two.m31 + one.m23 * two.m32 + one.m33 * two.m33;
+    matrix.updateBuffer();
     return matrix;
 }
 
@@ -549,6 +574,7 @@ Matrix4f& matrix::invert(Matrix4f &matrix, const Matrix4f& from) {
     matrix.m31 = t13 * determinant_inv;
     matrix.m32 = t23 * determinant_inv;
     matrix.m23 = t32 * determinant_inv;
+    matrix.updateBuffer();
     return matrix;
 }
 
@@ -600,6 +626,7 @@ Matrix4f& Matrix4f::invert(Matrix4f &matrix, const Matrix4f& from) {
     matrix.m31 = t13 * determinant_inv;
     matrix.m32 = t23 * determinant_inv;
     matrix.m23 = t32 * determinant_inv;
+    updateBuffer();
     return matrix;
 }
 
@@ -650,6 +677,7 @@ Matrix4f& Matrix4f::invert(Matrix4f &matrix) {
     matrix.m31 = t13 * determinant_inv;
     matrix.m32 = t23 * determinant_inv;
     matrix.m23 = t32 * determinant_inv;
+    updateBuffer();
     return matrix;
 }
 
@@ -700,6 +728,7 @@ Matrix4f& Matrix4f::invert() {
     m31 = t13 * determinant_inv;
     m32 = t23 * determinant_inv;
     m23 = t32 * determinant_inv;
+    updateBuffer();
     return *this;
 }
 
@@ -710,8 +739,8 @@ Matrix4f& Matrix4f::removeTranslation(){
     return *this;
 }
 
-float * Matrix4f::toFloatBuffer() const {
-    return new float[16] {m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, m30, m31, m32, m33};
+float * Matrix4f::getBuffer() {
+    return buffer;
 }
 
 std::string Matrix4f::toString(){
@@ -721,4 +750,9 @@ std::string Matrix4f::toString(){
        << m02 << " : " << m12 << " : " << m22 << " : " << m32 << "\n"
        << m03 << " : " << m13 << " : " << m23 << " : " << m33 << "";
     return ss.str();
+}
+
+void Matrix4f::updateBuffer() {
+    delete[] buffer;
+    buffer = new float[16] {m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, m30, m31, m32, m33};
 }

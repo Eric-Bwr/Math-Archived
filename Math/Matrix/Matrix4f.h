@@ -27,7 +27,8 @@ public:
     Matrix4f& invert(Matrix4f &matrix);
     Matrix4f& invert();
     Matrix4f& removeTranslation();
-    float * toFloatBuffer() const;
+    float* getBuffer();
+    void updateBuffer();
     std::string toString();
 public:
     float m00 = 0.0f;
@@ -46,6 +47,7 @@ public:
     float m31 = 0.0f;
     float m32 = 0.0f;
     float m33 = 0.0f;
+    float* buffer;
 };
 
 namespace matrix {
