@@ -107,6 +107,34 @@ Vector3i& Vector3i::operator/=(const Vector3i &other) {
     return *this;
 }
 
+Vector3i& cross(Vector3i& left, const Vector3i &right){
+    float xx = left.y * right.z - right.y * left.z;
+    float yy = left.z * right.x - right.z * left.x;
+    float zz = left.x * right.y - right.x * left.y;
+    left.x = xx;
+    left.y = yy;
+    left.z = zz;
+    return left;
+}
+
+float dot(Vector3i& left, const Vector3i &right){
+    return left.x * right.x + left.y * right.y + left.z * right.z;
+}
+
+Vector3i& normalize(Vector3i& vector){
+    float lengthSquared = (vector.x * vector.x + vector.y * vector.y + vector.z * vector.z);
+    if(lengthSquared == 0)
+        return vector;
+    float length = 1.0f / std::sqrt(lengthSquared);
+    float xx = length * vector.x;
+    float yy = length * vector.y;
+    float zz = length * vector.z;
+    vector.x = xx;
+    vector.y = yy;
+    vector.z = zz;
+    return vector;
+}
+
 const char* Vector3i::toString() {
     std::string string;
     string.append(std::to_string((x)));
