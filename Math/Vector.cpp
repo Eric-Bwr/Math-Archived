@@ -46,20 +46,20 @@ Vec2f operator/ (Vec2f &a, Vec2f &b) {
 Vec2f operator/ (Vec2f &a, float b) {
 	return Vec2f(a.x / b, a.y / b);
 }
-	
-Vec2f Vec2f::operator+= (Vec2f const &a) {
+
+Vec2f& Vec2f::operator+= (Vec2f const &a) {
 	x += a.x;
 	y += a.y;
 	return *this;
 }
 
-Vec2f Vec2f::operator-= (Vec2f const &a) {
+Vec2f& Vec2f::operator-= (Vec2f const &a) {
 	x -= a.x;
 	y -= a.y;
 	return *this;
 }
 
-Vec2f Vec2f::operator*= (float v) {
+Vec2f& Vec2f::operator*= (float v) {
 	x *= v;
 	y *= v;
 	return *this;
@@ -154,21 +154,21 @@ Vec3f operator/ (Vec3f const &a, float b) {
 	return Vec3f(a.x / b, a.y / b, a.z / b);
 }
 
-Vec3f Vec3f::operator+= (Vec3f &a) {
+Vec3f& Vec3f::operator+= (Vec3f &a) {
 	x += a.x;
 	y += a.y;
 	z += a.z;
 	return *this;
 }
 
-Vec3f Vec3f::operator-= (Vec3f &a) {
+Vec3f& Vec3f::operator-= (Vec3f &a) {
 	x -= a.x;
 	y -= a.y;
 	z -= a.z;
 	return *this;
 }
 
-Vec3f Vec3f::operator*= (float v) {
+Vec3f& Vec3f::operator*= (float v) {
 	x *= v;
 	y *= v;
 	z *= v;

@@ -20,9 +20,9 @@ public:
 	friend Vec2f operator/ (Vec2f &a, Vec2f &b);
 	friend Vec2f operator/ (Vec2f &a, float b);
 
-	Vec2f operator+= (Vec2f const &a);
-	Vec2f operator-= (Vec2f const &a);
-	Vec2f operator*= (float v);
+	Vec2f &operator+= (Vec2f const &a);
+	Vec2f &operator-= (Vec2f const &a);
+	Vec2f &operator*= (float v);
 	
 	bool operator== (Vec2f &a) const;
 	bool operator!= (Vec2f &a) const;
@@ -55,9 +55,9 @@ public:
 	friend Vec3f operator/ (Vec3f const &a, Vec3f const &b);
 	friend Vec3f operator/ (Vec3f const &a, float b);
 
-	Vec3f operator+= (Vec3f &a);
-	Vec3f operator-= (Vec3f &a);
-	Vec3f operator*= (float v);
+	Vec3f &operator+= (Vec3f &a);
+	Vec3f &operator-= (Vec3f &a);
+	Vec3f &operator*= (float v);
 	
 	bool operator== (Vec3f &a) const;
 	bool operator!= (Vec3f &a) const;
