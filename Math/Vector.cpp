@@ -19,16 +19,32 @@ Vec2f operator+ (Vec2f &a, Vec2f &b) {
 	return Vec2f(a.x + b.x, a.y + b.y);
 }
 
+Vec2f operator+ (Vec2f &a, float b) {
+	return Vec2f(a.x + b, a.y + b);
+}
+
 Vec2f operator- (Vec2f &a, Vec2f &b) {
 	return Vec2f(a.x - b.x, a.y - b.y);
+}
+
+Vec2f operator- (Vec2f &a, float b) {
+	return Vec2f(a.x - b, a.y - b);
 }
 
 Vec2f operator* (Vec2f &a, Vec2f &b) {
 	return Vec2f(a.x * b.x, a.y * b.y);
 }
 
+Vec2f operator* (Vec2f &a, float b) {
+	return Vec2f(a.x * b, a.y * b);
+}
+
 Vec2f operator/ (Vec2f &a, Vec2f &b) {
 	return Vec2f(a.x / b.x, a.y / b.y);
+}
+
+Vec2f operator/ (Vec2f &a, float b) {
+	return Vec2f(a.x / b, a.y / b);
 }
 	
 Vec2f Vec2f::operator+= (Vec2f const &a) {
@@ -110,16 +126,32 @@ Vec3f operator+ (Vec3f const &a, Vec3f const &b) {
 	return Vec3f(a.x + b.x, a.y + b.y, a.z + b.z);
 }
 
+Vec3f operator+ (Vec3f const &a, float b) {
+	return Vec3f(a.x + b, a.y + b, a.z + b);
+}
+
 Vec3f operator- (Vec3f const &a, Vec3f const &b) {
 	return Vec3f(a.x - b.x, a.y - b.y, a.z - b.z);
+}
+
+Vec3f operator- (Vec3f const &a, float b) {
+	return Vec3f(a.x - b, a.y - b, a.z - b);
 }
 
 Vec3f operator* (Vec3f const &a, Vec3f const &b) {
 	return Vec3f(a.x * b.x, a.y * b.y, a.z * b.z);
 }
 
+Vec3f operator* (Vec3f const &a, float b) {
+	return Vec3f(a.x * b, a.y * b, a.z * b);
+}
+
 Vec3f operator/ (Vec3f const &a, Vec3f const &b) {
 	return Vec3f(a.x / b.x, a.y / b.y, a.z / b.z);
+}
+
+Vec3f operator/ (Vec3f const &a, float b) {
+	return Vec3f(a.x / b, a.y / b, a.z / b);
 }
 
 Vec3f Vec3f::operator+= (Vec3f &a) {

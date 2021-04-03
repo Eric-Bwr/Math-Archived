@@ -13,6 +13,8 @@ public:
 
 	friend Vec2f operator+ (Vec2f &a, Vec2f &b);
 	friend Vec2f operator- (Vec2f &a, Vec2f &b);
+	friend Vec2f operator* (Vec2f &a, Vec2f &b);
+	friend Vec2f operator/ (Vec2f &a, Vec2f &b);
 	
 	Vec2f operator+= (Vec2f const &a);
 	Vec2f operator-= (Vec2f const &a);
@@ -42,6 +44,8 @@ public:
 
 	friend Vec3f operator+ (Vec3f const &a, Vec3f const &b);
 	friend Vec3f operator- (Vec3f const &a, Vec3f const &b);
+	friend Vec3f operator* (Vec3f const &a, Vec3f const &b);
+	friend Vec3f operator/ (Vec3f const &a, Vec3f const &b);
 	
 	Vec3f operator+= (Vec3f &a);
 	Vec3f operator-= (Vec3f &a);

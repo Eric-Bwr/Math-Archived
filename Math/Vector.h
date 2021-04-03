@@ -12,10 +12,14 @@ public:
 	Vec2f(Vec2f &v);
 
 	friend Vec2f operator+ (Vec2f &a, Vec2f &b);
+	friend Vec2f operator+ (Vec2f &a, float b);
 	friend Vec2f operator- (Vec2f &a, Vec2f &b);
+	friend Vec2f operator- (Vec2f &a, float b);
 	friend Vec2f operator* (Vec2f &a, Vec2f &b);
+	friend Vec2f operator* (Vec2f &a, float b);
 	friend Vec2f operator/ (Vec2f &a, Vec2f &b);
-	
+	friend Vec2f operator/ (Vec2f &a, float b);
+
 	Vec2f operator+= (Vec2f const &a);
 	Vec2f operator-= (Vec2f const &a);
 	Vec2f operator*= (float v);
@@ -43,10 +47,14 @@ public:
 	Vec2f yz() const;
 
 	friend Vec3f operator+ (Vec3f const &a, Vec3f const &b);
+	friend Vec3f operator+ (Vec3f const &a, float b);
 	friend Vec3f operator- (Vec3f const &a, Vec3f const &b);
+	friend Vec3f operator- (Vec3f const &a, float b);
 	friend Vec3f operator* (Vec3f const &a, Vec3f const &b);
+	friend Vec3f operator* (Vec3f const &a, float b);
 	friend Vec3f operator/ (Vec3f const &a, Vec3f const &b);
-	
+	friend Vec3f operator/ (Vec3f const &a, float b);
+
 	Vec3f operator+= (Vec3f &a);
 	Vec3f operator-= (Vec3f &a);
 	Vec3f operator*= (float v);
