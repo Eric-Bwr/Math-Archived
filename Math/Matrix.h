@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdio>
+#include <cmath>
 #include "Vector.h"
 
 class Mat4f {
@@ -24,6 +26,7 @@ public:
 	Mat4f() = default;
 	explicit Mat4f(float v);
 
+	Mat4f &identity();
 	Mat4f &rotate(float angle, const Vec3f &axis);
 	Mat4f &rotate(float angle, float x, float y, float z);
 	Mat4f &scale(float scale);

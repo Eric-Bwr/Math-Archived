@@ -1,8 +1,3 @@
-#include <cstdio>
-#include <cmath>
-#include <string>
-
-#include "Vector.h"
 #include "Matrix.h"
 
 #define RADIANS 0.01745329251994329576923690768489f
@@ -12,6 +7,14 @@ Mat4f::Mat4f(float v) {
 	m11 = v;
 	m22 = v;
 	m33 = v;
+}
+
+Mat4f &Mat4f::identity() {
+    m00 = 1.0f;
+    m11 = 1.0f;
+    m22 = 1.0f;
+    m33 = 1.0f;
+    return *this;
 }
 
 Mat4f &Mat4f::rotate(float angle, const Vec3f &axis) {

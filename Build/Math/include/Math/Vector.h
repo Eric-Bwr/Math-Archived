@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cmath>
+
 class Vec2f {
 public:
 	float x, y;
