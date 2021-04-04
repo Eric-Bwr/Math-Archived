@@ -34,6 +34,7 @@ public:
 	Mat4f &scale(const Vec3f &scale);
 	Mat4f &translate(const Vec3f &vector);
 	Mat4f &translate(float x, float y, float z);
+	Mat4f &lookAt(const Vec3f &eye, const Vec3f &center, const Vec3f &up);
 
 	char *toString() const;
 };
