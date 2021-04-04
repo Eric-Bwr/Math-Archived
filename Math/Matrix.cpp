@@ -281,9 +281,25 @@ float * Mat4f::getBuffer() const {
 }
 
 void Mat4f::updateBuffer() {
-    if(buffer != nullptr)
-        delete[] buffer;
-    buffer = new float[16] {m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, m30, m31, m32, m33};
+    buffer[0] = m00;
+    buffer[1] = m01;
+    buffer[2] = m02;
+    buffer[3] = m03;
+
+    buffer[4] = m10;
+    buffer[5] = m11;
+    buffer[6] = m12;
+    buffer[7] = m13;
+
+    buffer[8] = m20;
+    buffer[9] = m21;
+    buffer[10] = m22;
+    buffer[11] = m23;
+
+    buffer[12] = m30;
+    buffer[13] = m31;
+    buffer[14] = m32;
+    buffer[15] = m33;
 }
 
 Mat4f identityMatrix() {
