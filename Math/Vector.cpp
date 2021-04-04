@@ -184,15 +184,18 @@ bool Vec3f::operator!= (Vec3f &a) const {
 }
 
 Vec3f Vec3f::cross(Vec3f const &a) const {
-	float xx = y * a.z - y * a.z;
-    float yy = z * a.x - z * a.x;
-    float zz = x * a.y - x * a.y;
+	float xx = y * a.z - a.y * z;
+    float yy = z * a.x - a.z * x;
+    float zz = x * a.y - a.x * y;
 	return Vec3f(xx, yy, zz);
 }
 
 Vec3f Vec3f::norm() const {
-	float f = 1.0f / len();
-	return Vec3f(x * f, y * f, z * f);
+    float lengthSquared = (x * x + y * y + z * z);
+    if(lengthSquared == 0)
+        return *this;
+    float length = 1.0f / std::sqrt(lengthSquared);
+	return Vec3f(x * length, y * length, z * length);
 }
 
 float Vec3f::dot(Vec3f const &a) const {
