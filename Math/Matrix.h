@@ -46,7 +46,6 @@ public:
     char *toString() const;
 
     float* getBuffer() const;
-    ~Mat4f();
 
     void updateBuffer();
 };

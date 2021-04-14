@@ -358,7 +358,3 @@ Mat4f lookAtMatrix(const Vec3f &eye, const Vec3f &center, const Vec3f &up) {
 	mat.updateBuffer();
 	return mat;
 }
-
-Mat4f::~Mat4f() {
-    delete[] buffer;
-}
