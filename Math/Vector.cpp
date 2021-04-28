@@ -205,3 +205,81 @@ float Vec3f::dot(Vec3f const &a) const {
 float Vec3f::len() const {
 	return std::sqrt(x * x + y * y + z * z);
 }
+
+Vec4f::Vec4f(float v) {
+    x = v;
+    y = v;
+    z = v;
+    w = v;
+}
+
+Vec4f::Vec4f(float x, float y, float z, float w) {
+    this->x = x;
+    this->y = y;
+    this->z = z;
+    this->w = w;
+}
+
+Vec4f operator+ (const Vec4f &a, const Vec4f &b) {
+    return Vec4f(a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w);
+}
+
+Vec4f operator+ (const Vec4f &a, float b) {
+    return Vec4f(a.x + b, a.y + b, a.z + b, a.w + b);
+}
+
+Vec4f operator- (const Vec4f &a, const Vec4f &b) {
+    return Vec4f(a.x - b.x, a.y - b.y, a.z - b.z, a.w - b.w);
+}
+
+Vec4f operator- (const Vec4f &a, float b) {
+    return Vec4f(a.x - b, a.y - b, a.z - b, a.w - b);
+}
+
+Vec4f operator* (const Vec4f &a, const Vec4f &b) {
+    return Vec4f(a.x * b.x, a.y * b.y, a.z * b.z, a.w * b.w);
+}
+
+Vec4f operator* (const Vec4f &a, float b) {
+    return Vec4f(a.x * b, a.y * b, a.z * b, a.w * b);
+}
+
+Vec4f operator/ (const Vec4f &a, const Vec4f &b) {
+    return Vec4f(a.x / b.x, a.y / b.y, a.z / b.z, a.w / b.w);
+}
+
+Vec4f operator/ (const Vec4f &a, float b) {
+    return Vec4f(a.x / b, a.y / b, a.z / b, a.w / b);
+}
+
+Vec4f& Vec4f::operator+= (const Vec4f &a) {
+    x += a.x;
+    y += a.y;
+    z += a.z;
+    w += a.w;
+    return *this;
+}
+
+Vec4f& Vec4f::operator-= (const Vec4f &a) {
+    x -= a.x;
+    y -= a.y;
+    z -= a.z;
+    w -= a.w;
+    return *this;
+}
+
+Vec4f& Vec4f::operator*= (float v) {
+    x *= v;
+    y *= v;
+    z *= v;
+    w *= v;
+    return *this;
+}
+
+bool Vec4f::operator== (Vec4f &a) const {
+    return x == a.x && y == a.y && z == a.z && w == a.w;
+}
+
+bool Vec4f::operator!= (Vec4f &a) const {
+    return x != a.x || y != a.y || z != a.z || w != a.w;
+}
