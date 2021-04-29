@@ -302,6 +302,8 @@ void Mat4f::updateBuffer() {
     buffer[15] = m33;
 }
 
+Mat4f::~Mat4f() = default;
+
 Mat4f identityMatrix() {
 	return Mat4f(1.0f);
 }
