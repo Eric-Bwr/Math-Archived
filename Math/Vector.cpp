@@ -1,258 +1,258 @@
 #include "Vector.h"
 
-Vec2f::Vec2f(float v) {
+Vec2::Vec2(double v) {
 	this->x = v;
 	this->y = v;
 }
 
-Vec2f::Vec2f(float x, float y) {
+Vec2::Vec2(double x, double y) {
 	this->x = x;
 	this->y = y;
 }
 
-Vec2f::Vec2f(const Vec2f &v) {
+Vec2::Vec2(const Vec2 &v) {
 	this->x = v.x;
 	this->y = v.y;
 }
 
-Vec2f operator+ (const Vec2f &a, const Vec2f &b) {
-	return Vec2f(a.x + b.x, a.y + b.y);
+Vec2 operator+ (const Vec2 &a, const Vec2 &b) {
+	return Vec2(a.x + b.x, a.y + b.y);
 }
 
-Vec2f operator+ (const Vec2f &a, float b) {
-	return Vec2f(a.x + b, a.y + b);
+Vec2 operator+ (const Vec2 &a, double b) {
+	return Vec2(a.x + b, a.y + b);
 }
 
-Vec2f operator- (const Vec2f &a, const Vec2f &b) {
-	return Vec2f(a.x - b.x, a.y - b.y);
+Vec2 operator- (const Vec2 &a, const Vec2 &b) {
+	return Vec2(a.x - b.x, a.y - b.y);
 }
 
-Vec2f operator- (const Vec2f &a, float b) {
-	return Vec2f(a.x - b, a.y - b);
+Vec2 operator- (const Vec2 &a, double b) {
+	return Vec2(a.x - b, a.y - b);
 }
 
-Vec2f operator* (const Vec2f &a, const Vec2f &b) {
-	return Vec2f(a.x * b.x, a.y * b.y);
+Vec2 operator* (const Vec2 &a, const Vec2 &b) {
+	return Vec2(a.x * b.x, a.y * b.y);
 }
 
-Vec2f operator* (const Vec2f &a, float b) {
-	return Vec2f(a.x * b, a.y * b);
+Vec2 operator* (const Vec2 &a, double b) {
+	return Vec2(a.x * b, a.y * b);
 }
 
-Vec2f operator/ (const Vec2f &a, const Vec2f &b) {
-	return Vec2f(a.x / b.x, a.y / b.y);
+Vec2 operator/ (const Vec2 &a, const Vec2 &b) {
+	return Vec2(a.x / b.x, a.y / b.y);
 }
 
-Vec2f operator/ (const Vec2f &a, float b) {
-	return Vec2f(a.x / b, a.y / b);
+Vec2 operator/ (const Vec2 &a, double b) {
+	return Vec2(a.x / b, a.y / b);
 }
 
-Vec2f& Vec2f::operator+= (const Vec2f &a) {
+Vec2& Vec2::operator+= (const Vec2 &a) {
 	x += a.x;
 	y += a.y;
 	return *this;
 }
 
-Vec2f& Vec2f::operator-= (const Vec2f &a) {
+Vec2& Vec2::operator-= (const Vec2 &a) {
 	x -= a.x;
 	y -= a.y;
 	return *this;
 }
 
-Vec2f& Vec2f::operator*= (float v) {
+Vec2& Vec2::operator*= (double v) {
 	x *= v;
 	y *= v;
 	return *this;
 }
 	
-bool Vec2f::operator== (Vec2f &a) const {
+bool Vec2::operator== (Vec2 &a) const {
 	return x == a.x && y == a.y;
 }
 
-bool Vec2f::operator!= (Vec2f &a) const {
+bool Vec2::operator!= (Vec2 &a) const {
 	return x != a.x || y != a.y;
 }
 
-Vec2f Vec2f::norm() const {
-	float f = 1.0f / len();
-	return Vec2f(f * x, f * y);
+Vec2 Vec2::norm() const {
+	double f = 1.0 / len();
+	return Vec2(f * x, f * y);
 }
 
-float Vec2f::dot(Vec2f const &a) const {
+double Vec2::dot(Vec2 const &a) const {
 	return x * a.x + y * a.y;
 }
 
-float Vec2f::len() const {
+double Vec2::len() const {
 	return std::sqrt(x * x + y * y);
 }
 
-Vec3f::Vec3f(float v) {
+Vec3::Vec3(double v) {
 	x = v;
 	y = v;
 	z = v;
 }
 
-Vec3f::Vec3f(float x, float y, float z) {
+Vec3::Vec3(double x, double y, double z) {
 	this->x = x;
 	this->y = y;
 	this->z = z;
 }
 
-Vec3f::Vec3f(const Vec2f& xy, float z) {
+Vec3::Vec3(const Vec2& xy, double z) {
 	this->x = xy.x;
 	this->y = xy.y;
 	this->z = z;
 }
 
-Vec3f::Vec3f(const Vec3f& v) {
+Vec3::Vec3(const Vec3& v) {
 	x = v.x;
 	y = v.y;
 	z = v.z;
 }
 
-Vec2f Vec3f::xy() const {
-	return Vec2f(x, y);
+Vec2 Vec3::xy() const {
+	return Vec2(x, y);
 }
 
-Vec2f Vec3f::xz() const {
-	return Vec2f(x, z);
+Vec2 Vec3::xz() const {
+	return Vec2(x, z);
 }
 
-Vec2f Vec3f::yz() const {
-	return Vec2f(y, z);
+Vec2 Vec3::yz() const {
+	return Vec2(y, z);
 }
 
-Vec3f operator+ (const Vec3f &a, const Vec3f &b) {
-	return Vec3f(a.x + b.x, a.y + b.y, a.z + b.z);
+Vec3 operator+ (const Vec3 &a, const Vec3 &b) {
+	return Vec3(a.x + b.x, a.y + b.y, a.z + b.z);
 }
 
-Vec3f operator+ (const Vec3f &a, float b) {
-	return Vec3f(a.x + b, a.y + b, a.z + b);
+Vec3 operator+ (const Vec3 &a, double b) {
+	return Vec3(a.x + b, a.y + b, a.z + b);
 }
 
-Vec3f operator- (const Vec3f &a, const Vec3f &b) {
-	return Vec3f(a.x - b.x, a.y - b.y, a.z - b.z);
+Vec3 operator- (const Vec3 &a, const Vec3 &b) {
+	return Vec3(a.x - b.x, a.y - b.y, a.z - b.z);
 }
 
-Vec3f operator- (const Vec3f &a, float b) {
-	return Vec3f(a.x - b, a.y - b, a.z - b);
+Vec3 operator- (const Vec3 &a, double b) {
+	return Vec3(a.x - b, a.y - b, a.z - b);
 }
 
-Vec3f operator* (const Vec3f &a, const Vec3f &b) {
-	return Vec3f(a.x * b.x, a.y * b.y, a.z * b.z);
+Vec3 operator* (const Vec3 &a, const Vec3 &b) {
+	return Vec3(a.x * b.x, a.y * b.y, a.z * b.z);
 }
 
-Vec3f operator* (const Vec3f &a, float b) {
-	return Vec3f(a.x * b, a.y * b, a.z * b);
+Vec3 operator* (const Vec3 &a, double b) {
+	return Vec3(a.x * b, a.y * b, a.z * b);
 }
 
-Vec3f operator/ (const Vec3f &a, const Vec3f &b) {
-	return Vec3f(a.x / b.x, a.y / b.y, a.z / b.z);
+Vec3 operator/ (const Vec3 &a, const Vec3 &b) {
+	return Vec3(a.x / b.x, a.y / b.y, a.z / b.z);
 }
 
-Vec3f operator/ (const Vec3f &a, float b) {
-	return Vec3f(a.x / b, a.y / b, a.z / b);
+Vec3 operator/ (const Vec3 &a, double b) {
+	return Vec3(a.x / b, a.y / b, a.z / b);
 }
 
-Vec3f& Vec3f::operator+= (const Vec3f &a) {
+Vec3& Vec3::operator+= (const Vec3 &a) {
 	x += a.x;
 	y += a.y;
 	z += a.z;
 	return *this;
 }
 
-Vec3f& Vec3f::operator-= (const Vec3f &a) {
+Vec3& Vec3::operator-= (const Vec3 &a) {
 	x -= a.x;
 	y -= a.y;
 	z -= a.z;
 	return *this;
 }
 
-Vec3f& Vec3f::operator*= (float v) {
+Vec3& Vec3::operator*= (double v) {
 	x *= v;
 	y *= v;
 	z *= v;
 	return *this;
 }
 	
-bool Vec3f::operator== (Vec3f &a) const {
+bool Vec3::operator== (Vec3 &a) const {
 	return x == a.x && y == a.y && z == a.z;
 }
 
-bool Vec3f::operator!= (Vec3f &a) const {
+bool Vec3::operator!= (Vec3 &a) const {
 	return x != a.x || y != a.y || z != a.z;
 }
 
-Vec3f Vec3f::cross(Vec3f const &a) const {
-	float xx = y * a.z - a.y * z;
-    float yy = z * a.x - a.z * x;
-    float zz = x * a.y - a.x * y;
-	return Vec3f(xx, yy, zz);
+Vec3 Vec3::cross(Vec3 const &a) const {
+	double xx = y * a.z - a.y * z;
+    double yy = z * a.x - a.z * x;
+    double zz = x * a.y - a.x * y;
+	return Vec3(xx, yy, zz);
 }
 
-Vec3f Vec3f::norm() const {
-    float lengthSquared = (x * x + y * y + z * z);
+Vec3 Vec3::norm() const {
+    double lengthSquared = (x * x + y * y + z * z);
     if(lengthSquared == 0)
         return *this;
-    float length = 1.0f / std::sqrt(lengthSquared);
-	return Vec3f(x * length, y * length, z * length);
+    double length = 1.0 / std::sqrt(lengthSquared);
+	return Vec3(x * length, y * length, z * length);
 }
 
-float Vec3f::dot(Vec3f const &a) const {
+double Vec3::dot(Vec3 const &a) const {
 	return x * a.x + y * a.y + z * a.z;
 }
 
-float Vec3f::len() const {
+double Vec3::len() const {
 	return std::sqrt(x * x + y * y + z * z);
 }
 
-Vec4f::Vec4f(float v) {
+Vec4::Vec4(double v) {
     x = v;
     y = v;
     z = v;
     w = v;
 }
 
-Vec4f::Vec4f(float x, float y, float z, float w) {
+Vec4::Vec4(double x, double y, double z, double w) {
     this->x = x;
     this->y = y;
     this->z = z;
     this->w = w;
 }
 
-Vec4f operator+ (const Vec4f &a, const Vec4f &b) {
-    return Vec4f(a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w);
+Vec4 operator+ (const Vec4 &a, const Vec4 &b) {
+    return Vec4(a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w);
 }
 
-Vec4f operator+ (const Vec4f &a, float b) {
-    return Vec4f(a.x + b, a.y + b, a.z + b, a.w + b);
+Vec4 operator+ (const Vec4 &a, double b) {
+    return Vec4(a.x + b, a.y + b, a.z + b, a.w + b);
 }
 
-Vec4f operator- (const Vec4f &a, const Vec4f &b) {
-    return Vec4f(a.x - b.x, a.y - b.y, a.z - b.z, a.w - b.w);
+Vec4 operator- (const Vec4 &a, const Vec4 &b) {
+    return Vec4(a.x - b.x, a.y - b.y, a.z - b.z, a.w - b.w);
 }
 
-Vec4f operator- (const Vec4f &a, float b) {
-    return Vec4f(a.x - b, a.y - b, a.z - b, a.w - b);
+Vec4 operator- (const Vec4 &a, double b) {
+    return Vec4(a.x - b, a.y - b, a.z - b, a.w - b);
 }
 
-Vec4f operator* (const Vec4f &a, const Vec4f &b) {
-    return Vec4f(a.x * b.x, a.y * b.y, a.z * b.z, a.w * b.w);
+Vec4 operator* (const Vec4 &a, const Vec4 &b) {
+    return Vec4(a.x * b.x, a.y * b.y, a.z * b.z, a.w * b.w);
 }
 
-Vec4f operator* (const Vec4f &a, float b) {
-    return Vec4f(a.x * b, a.y * b, a.z * b, a.w * b);
+Vec4 operator* (const Vec4 &a, double b) {
+    return Vec4(a.x * b, a.y * b, a.z * b, a.w * b);
 }
 
-Vec4f operator/ (const Vec4f &a, const Vec4f &b) {
-    return Vec4f(a.x / b.x, a.y / b.y, a.z / b.z, a.w / b.w);
+Vec4 operator/ (const Vec4 &a, const Vec4 &b) {
+    return Vec4(a.x / b.x, a.y / b.y, a.z / b.z, a.w / b.w);
 }
 
-Vec4f operator/ (const Vec4f &a, float b) {
-    return Vec4f(a.x / b, a.y / b, a.z / b, a.w / b);
+Vec4 operator/ (const Vec4 &a, double b) {
+    return Vec4(a.x / b, a.y / b, a.z / b, a.w / b);
 }
 
-Vec4f& Vec4f::operator+= (const Vec4f &a) {
+Vec4& Vec4::operator+= (const Vec4 &a) {
     x += a.x;
     y += a.y;
     z += a.z;
@@ -260,7 +260,7 @@ Vec4f& Vec4f::operator+= (const Vec4f &a) {
     return *this;
 }
 
-Vec4f& Vec4f::operator-= (const Vec4f &a) {
+Vec4& Vec4::operator-= (const Vec4 &a) {
     x -= a.x;
     y -= a.y;
     z -= a.z;
@@ -268,7 +268,7 @@ Vec4f& Vec4f::operator-= (const Vec4f &a) {
     return *this;
 }
 
-Vec4f& Vec4f::operator*= (float v) {
+Vec4& Vec4::operator*= (double v) {
     x *= v;
     y *= v;
     z *= v;
@@ -276,10 +276,10 @@ Vec4f& Vec4f::operator*= (float v) {
     return *this;
 }
 
-bool Vec4f::operator== (Vec4f &a) const {
+bool Vec4::operator== (Vec4 &a) const {
     return x == a.x && y == a.y && z == a.z && w == a.w;
 }
 
-bool Vec4f::operator!= (Vec4f &a) const {
+bool Vec4::operator!= (Vec4 &a) const {
     return x != a.x || y != a.y || z != a.z || w != a.w;
 }
