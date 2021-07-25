@@ -7,7 +7,7 @@ Mat4::Mat4(double v) {
 	m11 = v;
 	m22 = v;
 	m33 = v;
-    updateBuer();
+    updateBuffer();
 }
 
 Mat4 &Mat4::identity() {
@@ -15,7 +15,7 @@ Mat4 &Mat4::identity() {
     m11 = 1.0;
     m22 = 1.0;
     m33 = 1.0;
-    updateBuer();
+    updateBuffer();
     return *this;
 }
 
@@ -28,7 +28,7 @@ Mat4 &Mat4::translate(double x, double y, double z) {
     m31 = m01 * x + m11 * y + m21 * z;
     m32 = m02 * x + m12 * y + m22 * z;
 
-    updateBuer();
+    updateBuffer();
     return *this;
 }
 
@@ -56,18 +56,18 @@ Mat4 &Mat4::rotate(double angle, double x, double y, double z) {
 	double f7 = xz * oneminusc + ys;
 	double f8 = yz * oneminusc - xs;
 	double f9 = z * z * oneminusc + c;
-	double e1 = m00 * 00 + m10 * 2 + m20 * 3;
-	double e2 = m01 * 00 + m11 * 2 + m21 * 3;
-	double e3 = m02 * 00 + m12 * 2 + m22 * 3;
-	double e4 = m03 * 00 + m13 * 2 + m23 * 3;
-	double e5 = m00 * 4 + m10 * 5 + m20 * 6;
-	double e6 = m01 * 4 + m11 * 5 + m21 * 6;
-	double e7 = m02 * 4 + m12 * 5 + m22 * 6;
-	double e8 = m03 * 4 + m13 * 5 + m23 * 6;
-	double e9 = m00 * 7 + m10 * 8 + m20 * 9;
-	double e10 = m01 * 7 + m11 * 8 + m21 * 9;
-	double e11 = m02 * 7 + m12 * 8 + m22 * 9;
-	double e12 = m03 * 7 + m13 * 8 + m23 * 9;
+	double e1 = m00 * f00 + m10 * f2 + m20 * f3;
+	double e2 = m01 * f00 + m11 * f2 + m21 * f3;
+	double e3 = m02 * f00 + m12 * f2 + m22 * f3;
+	double e4 = m03 * f00 + m13 * f2 + m23 * f3;
+	double e5 = m00 * f4 + m10 * f5 + m20 * f6;
+	double e6 = m01 * f4 + m11 * f5 + m21 * f6;
+	double e7 = m02 * f4 + m12 * f5 + m22 * f6;
+	double e8 = m03 * f4 + m13 * f5 + m23 * f6;
+	double e9 = m00 * f7 + m10 * f8 + m20 * f9;
+	double e10 = m01 * f7 + m11 * f8 + m21 * f9;
+	double e11 = m02 * f7 + m12 * f8 + m22 * f9;
+	double e12 = m03 * f7 + m13 * f8 + m23 * f9;
 	m00 = e1;
 	m01 = e2;
 	m02 = e3;
@@ -80,7 +80,7 @@ Mat4 &Mat4::rotate(double angle, double x, double y, double z) {
 	m21 = e10;
 	m22 = e11;
 	m23 = e12;
-    updateBuer();
+    updateBuffer();
 	return *this;
 }
 
@@ -101,7 +101,7 @@ Mat4 &Mat4::scale(double x, double y, double z) {
 	m21 *= z;
 	m22 *= z;
 	m23 *= z;
-    updateBuer();
+    updateBuffer();
 	return *this;
 }
 
@@ -127,7 +127,7 @@ Mat4& Mat4::multiply(const Mat4& matrix) {
     m32 = m02 * matrix.m30 + m12 * matrix.m31 + m22 * matrix.m32 + m32 * matrix.m33;
     m33 = m03 * matrix.m30 + m13 * matrix.m31 + m23 * matrix.m32 + m33 * matrix.m33;
 
-    updateBuer();
+    updateBuffer();
     return *this;
 }
 
@@ -149,7 +149,7 @@ Mat4& Mat4::multiply(const Mat4& one, const Mat4& two) {
     m32 = one.m02 * two.m30 + one.m12 * two.m31 + one.m22 * two.m32 + one.m32 * two.m33;
     m33 = one.m03 * two.m30 + one.m13 * two.m31 + one.m23 * two.m32 + one.m33 * two.m33;
 
-    updateBuer();
+    updateBuffer();
     return *this;
 }
 
@@ -207,7 +207,7 @@ Mat4& Mat4::invert() {
     m32 = t23 * determinant_inv;
     m23 = t32 * determinant_inv;
 
-    updateBuer();
+    updateBuffer();
     return *this;
 }
 
@@ -215,34 +215,34 @@ Mat4 &Mat4::removeTranslation() {
     m30 = 0.0;
     m31 = 0.0;
     m32 = 0.0;
-    updateBuer();
+    updateBuffer();
     return *this;
 }
 
-Mat4 &Mat4::orthographic(double let, double right, double bottom, double top, double near, double ar){
-    m00 = 2.0 / (right - let);
+Mat4 &Mat4::orthographic(double left, double right, double bottom, double top, double near, double far){
+    m00 = 2.0 / (right - left);
     m11 = 2.0 / (top - bottom);
-    m22 = 2.0 / (near - ar);
+    m22 = 2.0 / (near - far);
 
-    m30 = (let + right) / (let - right);
+    m30 = (left + right) / (left - right);
     m31 = (bottom + top) / (bottom - top);
-    m32 = (ar + near) / (ar - near);
+    m32 = (far + near) / (far - near);
 
-    updateBuer();
+    updateBuffer();
     return *this;
 }
 
-Mat4 &Mat4::perspective(double ov, double width, double height, double near, double ar){
+Mat4 &Mat4::perspective(double fov, double width, double height, double near, double far){
     double aspectRatio = width / height;
-    double yScale = std::tan(ov / 2.0 * RADIANS);
+    double yScale = std::tan(fov / 2.0 * RADIANS);
 
     m00 = 1.0 / (aspectRatio * yScale);
     m11 = 1.0 / (yScale);
-    m22 = ar / (near - ar);
+    m22 = far / (near - far);
     m23 = -1.0;
-    m32 = -(ar * near) / (ar - near);
+    m32 = -(far * near) / (far - near);
 
-    updateBuer();
+    updateBuffer();
     return *this;
 }
 
@@ -264,42 +264,42 @@ Mat4 &Mat4::lookAt(const Vec3 &eye, const Vec3 &center, const Vec3 &up) {
     m31 =-u.dot(eye);
     m32 = f.dot(eye);
 
-    updateBuer();
+    updateBuffer();
     return *this;
 }
 
 char *Mat4::toString() const {
 	const char *mt = "|%+6.2 %+6.2 %+6.2 %+6.2|\n|%+6.2 %+6.2 %+6.2 %+6.2|\n|%+6.2 %+6.2 %+6.2 %+6.2|\n|%+6.2 %+6.2 %+6.2 %+6.2|\n";
-	char *s = (char *) malloc(sizeof(char) * 128);
+    char *s = (char *) malloc(sizeof(char) * 128);
 	std::sprintf(s, mt, m00, m10, m20, m30, m01, m11, m21, m31, m02, m12, m22, m32, m03, m13, m23, m33);
 	return s;
 }
 
 
-double * Mat4::getBuer() const {
-    return buer;
+double* Mat4::getBuffer() const {
+    return buffer;
 }
 
-void Mat4::updateBuer() {
-    buer[0] = m00;
-    buer[1] = m01;
-    buer[2] = m02;
-    buer[3] = m03;
+void Mat4::updateBuffer() {
+    buffer[0] = m00;
+    buffer[1] = m01;
+    buffer[2] = m02;
+    buffer[3] = m03;
 
-    buer[4] = m10;
-    buer[5] = m11;
-    buer[6] = m12;
-    buer[7] = m13;
+    buffer[4] = m10;
+    buffer[5] = m11;
+    buffer[6] = m12;
+    buffer[7] = m13;
 
-    buer[8] = m20;
-    buer[9] = m21;
-    buer[10] = m22;
-    buer[11] = m23;
+    buffer[8] = m20;
+    buffer[9] = m21;
+    buffer[10] = m22;
+    buffer[11] = m23;
 
-    buer[12] = m30;
-    buer[13] = m31;
-    buer[14] = m32;
-    buer[15] = m33;
+    buffer[12] = m30;
+    buffer[13] = m31;
+    buffer[14] = m32;
+    buffer[15] = m33;
 }
 
 Mat4::~Mat4() = default;
@@ -308,33 +308,33 @@ Mat4 identityMatrix() {
 	return Mat4(1.0);
 }
 
-Mat4 perspectiveMatrix(double ov, double width, double height, double near, double ar) {
+Mat4 perspectiveMatrix(double fov, double width, double height, double near, double far) {
 	Mat4 mat = identityMatrix();
 	double aspectRatio = width / height;
-	double yScale = std::tan(ov / 2.0 * RADIANS);
+	double yScale = std::tan(fov / 2.0 * RADIANS);
 
 	mat.m00 = 1.0 / (aspectRatio * yScale);
 	mat.m11 = 1.0 / (yScale);
-	mat.m22 = ar / (near - ar);
+	mat.m22 = far / (near - far);
 	mat.m23 = -1.0;
-	mat.m32 = -(ar * near) / (ar - near);
+	mat.m32 = -(far * near) / (far - near);
 
-    mat.updateBuer();
+    mat.updateBuffer();
 	return mat;
 }
 
-Mat4 orthographicMatrix(double let, double right, double bottom, double top, double near, double ar) {
+Mat4 orthographicMatrix(double left, double right, double bottom, double top, double near, double far) {
 	Mat4 mat = identityMatrix();
 
-	mat.m00 = 2.0 / (right - let);
+	mat.m00 = 2.0 / (right - left);
 	mat.m11 = 2.0 / (top - bottom);
-	mat.m22 = 2.0 / (near - ar);
+	mat.m22 = 2.0 / (near - far);
 
-	mat.m30 = (let + right) / (let - right);
+	mat.m30 = (left + right) / (left - right);
 	mat.m31 = (bottom + top) / (bottom - top);
-	mat.m32 = (ar + near) / (ar - near);
+	mat.m32 = (far + near) / (far - near);
 
-    mat.updateBuer();
+    mat.updateBuffer();
 	return mat;
 }
 
@@ -357,6 +357,6 @@ Mat4 lookAtMatrix(const Vec3 &eye, const Vec3 &center, const Vec3 &up) {
 	mat.m31 =-u.dot(eye);
 	mat.m32 = f.dot(eye);
 
-	mat.updateBuer();
+	mat.updateBuffer();
 	return mat;
 }
