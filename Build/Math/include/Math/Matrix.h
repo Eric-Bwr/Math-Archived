@@ -22,7 +22,6 @@ public:
     double m31 = 0.0;
     double m32 = 0.0;
     double m33 = 0.0;
-    double* buffer = new double[16] {m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, m30, m31, m32, m33};
 
     Mat4() = default;
     explicit Mat4(double v);
@@ -44,8 +43,8 @@ public:
     Mat4 &lookAt(const Vec3 &eye, const Vec3 &center, const Vec3 &up);
 
     char *toString() const;
-    double* getBuffer() const;
-    void updateBuffer();
+    const double* getBuffer() const;
+    double* getBuffer();
 
     ~Mat4();
 };
@@ -53,4 +52,5 @@ public:
 Mat4 identityMatrix();
 Mat4 perspectiveMatrix(double fov, double width, double height, double near, double far);
 Mat4 orthographicMatrix(double left, double right, double bottom, double top, double near, double far);
+Mat4 multiplyMatrix(const Mat4& one, const Mat4& two);
 Mat4 lookAtMatrix(const Vec3 &eye, const Vec3 &center, const Vec3 &up);

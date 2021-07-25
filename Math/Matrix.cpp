@@ -7,7 +7,6 @@ Mat4::Mat4(double v) {
 	m11 = v;
 	m22 = v;
 	m33 = v;
-    updateBuffer();
 }
 
 Mat4 &Mat4::identity() {
@@ -15,7 +14,6 @@ Mat4 &Mat4::identity() {
     m11 = 1.0;
     m22 = 1.0;
     m33 = 1.0;
-    updateBuffer();
     return *this;
 }
 
@@ -28,7 +26,6 @@ Mat4 &Mat4::translate(double x, double y, double z) {
     m31 = m01 * x + m11 * y + m21 * z;
     m32 = m02 * x + m12 * y + m22 * z;
 
-    updateBuffer();
     return *this;
 }
 
@@ -80,7 +77,6 @@ Mat4 &Mat4::rotate(double angle, double x, double y, double z) {
 	m21 = e10;
 	m22 = e11;
 	m23 = e12;
-    updateBuffer();
 	return *this;
 }
 
@@ -101,7 +97,6 @@ Mat4 &Mat4::scale(double x, double y, double z) {
 	m21 *= z;
 	m22 *= z;
 	m23 *= z;
-    updateBuffer();
 	return *this;
 }
 
@@ -127,7 +122,6 @@ Mat4& Mat4::multiply(const Mat4& matrix) {
     m32 = m02 * matrix.m30 + m12 * matrix.m31 + m22 * matrix.m32 + m32 * matrix.m33;
     m33 = m03 * matrix.m30 + m13 * matrix.m31 + m23 * matrix.m32 + m33 * matrix.m33;
 
-    updateBuffer();
     return *this;
 }
 
@@ -149,7 +143,6 @@ Mat4& Mat4::multiply(const Mat4& one, const Mat4& two) {
     m32 = one.m02 * two.m30 + one.m12 * two.m31 + one.m22 * two.m32 + one.m32 * two.m33;
     m33 = one.m03 * two.m30 + one.m13 * two.m31 + one.m23 * two.m32 + one.m33 * two.m33;
 
-    updateBuffer();
     return *this;
 }
 
@@ -207,7 +200,6 @@ Mat4& Mat4::invert() {
     m32 = t23 * determinant_inv;
     m23 = t32 * determinant_inv;
 
-    updateBuffer();
     return *this;
 }
 
@@ -215,7 +207,6 @@ Mat4 &Mat4::removeTranslation() {
     m30 = 0.0;
     m31 = 0.0;
     m32 = 0.0;
-    updateBuffer();
     return *this;
 }
 
@@ -228,7 +219,6 @@ Mat4 &Mat4::orthographic(double left, double right, double bottom, double top, d
     m31 = (bottom + top) / (bottom - top);
     m32 = (far + near) / (far - near);
 
-    updateBuffer();
     return *this;
 }
 
@@ -242,7 +232,6 @@ Mat4 &Mat4::perspective(double fov, double width, double height, double near, do
     m23 = -1.0;
     m32 = -(far * near) / (far - near);
 
-    updateBuffer();
     return *this;
 }
 
@@ -264,42 +253,22 @@ Mat4 &Mat4::lookAt(const Vec3 &eye, const Vec3 &center, const Vec3 &up) {
     m31 =-u.dot(eye);
     m32 = f.dot(eye);
 
-    updateBuffer();
     return *this;
 }
 
 char *Mat4::toString() const {
-	const char *mt = "|%+6.2 %+6.2 %+6.2 %+6.2|\n|%+6.2 %+6.2 %+6.2 %+6.2|\n|%+6.2 %+6.2 %+6.2 %+6.2|\n|%+6.2 %+6.2 %+6.2 %+6.2|\n";
+	const char *mt = "|%+6.2f %+6.2f %+6.2f %+6.2f|\n|%+6.2f %+6.2f %+6.2f %+6.2f|\n|%+6.2f %+6.2f %+6.2f %+6.2f|\n|%+6.2f %+6.2f %+6.2f %+6.2f|\n";
     char *s = (char *) malloc(sizeof(char) * 128);
 	std::sprintf(s, mt, m00, m10, m20, m30, m01, m11, m21, m31, m02, m12, m22, m32, m03, m13, m23, m33);
 	return s;
 }
 
-
-double* Mat4::getBuffer() const {
-    return buffer;
+const double* Mat4::getBuffer() const {
+    return &m00;
 }
 
-void Mat4::updateBuffer() {
-    buffer[0] = m00;
-    buffer[1] = m01;
-    buffer[2] = m02;
-    buffer[3] = m03;
-
-    buffer[4] = m10;
-    buffer[5] = m11;
-    buffer[6] = m12;
-    buffer[7] = m13;
-
-    buffer[8] = m20;
-    buffer[9] = m21;
-    buffer[10] = m22;
-    buffer[11] = m23;
-
-    buffer[12] = m30;
-    buffer[13] = m31;
-    buffer[14] = m32;
-    buffer[15] = m33;
+double* Mat4::getBuffer() {
+    return &m00;
 }
 
 Mat4::~Mat4() = default;
@@ -319,7 +288,6 @@ Mat4 perspectiveMatrix(double fov, double width, double height, double near, dou
 	mat.m23 = -1.0;
 	mat.m32 = -(far * near) / (far - near);
 
-    mat.updateBuffer();
 	return mat;
 }
 
@@ -334,7 +302,28 @@ Mat4 orthographicMatrix(double left, double right, double bottom, double top, do
 	mat.m31 = (bottom + top) / (bottom - top);
 	mat.m32 = (far + near) / (far - near);
 
-    mat.updateBuffer();
+	return mat;
+}
+
+Mat4 multiplyMatrix(const Mat4& one, const Mat4& two) {
+	Mat4 mat = identityMatrix();
+    mat.m00 = one.m00 * two.m00 + one.m10 * two.m01 + one.m20 * two.m02 + one.m30 * two.m03;
+    mat.m01 = one.m01 * two.m00 + one.m11 * two.m01 + one.m21 * two.m02 + one.m31 * two.m03;
+    mat.m02 = one.m02 * two.m00 + one.m12 * two.m01 + one.m22 * two.m02 + one.m32 * two.m03;
+    mat.m03 = one.m03 * two.m00 + one.m13 * two.m01 + one.m23 * two.m02 + one.m33 * two.m03;
+    mat.m10 = one.m00 * two.m10 + one.m10 * two.m11 + one.m20 * two.m12 + one.m30 * two.m13;
+    mat.m11 = one.m01 * two.m10 + one.m11 * two.m11 + one.m21 * two.m12 + one.m31 * two.m13;
+    mat.m12 = one.m02 * two.m10 + one.m12 * two.m11 + one.m22 * two.m12 + one.m32 * two.m13;
+    mat.m13 = one.m03 * two.m10 + one.m13 * two.m11 + one.m23 * two.m12 + one.m33 * two.m13;
+    mat.m20 = one.m00 * two.m20 + one.m10 * two.m21 + one.m20 * two.m22 + one.m30 * two.m23;
+    mat.m21 = one.m01 * two.m20 + one.m11 * two.m21 + one.m21 * two.m22 + one.m31 * two.m23;
+    mat.m22 = one.m02 * two.m20 + one.m12 * two.m21 + one.m22 * two.m22 + one.m32 * two.m23;
+    mat.m23 = one.m03 * two.m20 + one.m13 * two.m21 + one.m23 * two.m22 + one.m33 * two.m23;
+    mat.m30 = one.m00 * two.m30 + one.m10 * two.m31 + one.m20 * two.m32 + one.m30 * two.m33;
+    mat.m31 = one.m01 * two.m30 + one.m11 * two.m31 + one.m21 * two.m32 + one.m31 * two.m33;
+    mat.m32 = one.m02 * two.m30 + one.m12 * two.m31 + one.m22 * two.m32 + one.m32 * two.m33;
+    mat.m33 = one.m03 * two.m30 + one.m13 * two.m31 + one.m23 * two.m32 + one.m33 * two.m33;
+
 	return mat;
 }
 
@@ -357,6 +346,5 @@ Mat4 lookAtMatrix(const Vec3 &eye, const Vec3 &center, const Vec3 &up) {
 	mat.m31 =-u.dot(eye);
 	mat.m32 = f.dot(eye);
 
-	mat.updateBuffer();
 	return mat;
 }
