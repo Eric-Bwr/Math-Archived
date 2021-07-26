@@ -86,6 +86,10 @@ double Vec2::len() const {
 	return std::sqrt(x * x + y * y);
 }
 
+double Vec2::len2() const {
+	return x * x + y * y;
+}
+
 Vec3::Vec3(double v) {
 	x = v;
 	y = v;
@@ -204,6 +208,10 @@ double Vec3::dot(Vec3 const &a) const {
 
 double Vec3::len() const {
 	return std::sqrt(x * x + y * y + z * z);
+}
+
+double Vec3::len2() const {
+	return x * x + y * y + z * z;
 }
 
 Vec4::Vec4(double v) {

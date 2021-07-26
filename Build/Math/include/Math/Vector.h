@@ -30,6 +30,7 @@ public:
 	Vec2 norm() const;
 	double dot(Vec2 const &a) const;
 	double len() const;
+	double len2() const;
 };
 
 class Vec3 {
@@ -66,6 +67,7 @@ public:
 	Vec3 norm() const;
 	double dot(Vec3 const &a) const;
 	double len() const;
+	double len2() const;
 };
 
 class Vec4 {
