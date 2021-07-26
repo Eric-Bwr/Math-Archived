@@ -306,23 +306,24 @@ Mat4 orthographicMatrix(double left, double right, double bottom, double top, do
 }
 
 Mat4 multiplyMatrix(const Mat4& one, const Mat4& two) {
-	Mat4 mat = identityMatrix();
-    mat.m00 = one.m00 * two.m00 + one.m10 * two.m01 + one.m20 * two.m02 + one.m30 * two.m03;
-    mat.m01 = one.m01 * two.m00 + one.m11 * two.m01 + one.m21 * two.m02 + one.m31 * two.m03;
-    mat.m02 = one.m02 * two.m00 + one.m12 * two.m01 + one.m22 * two.m02 + one.m32 * two.m03;
-    mat.m03 = one.m03 * two.m00 + one.m13 * two.m01 + one.m23 * two.m02 + one.m33 * two.m03;
-    mat.m10 = one.m00 * two.m10 + one.m10 * two.m11 + one.m20 * two.m12 + one.m30 * two.m13;
-    mat.m11 = one.m01 * two.m10 + one.m11 * two.m11 + one.m21 * two.m12 + one.m31 * two.m13;
-    mat.m12 = one.m02 * two.m10 + one.m12 * two.m11 + one.m22 * two.m12 + one.m32 * two.m13;
-    mat.m13 = one.m03 * two.m10 + one.m13 * two.m11 + one.m23 * two.m12 + one.m33 * two.m13;
-    mat.m20 = one.m00 * two.m20 + one.m10 * two.m21 + one.m20 * two.m22 + one.m30 * two.m23;
-    mat.m21 = one.m01 * two.m20 + one.m11 * two.m21 + one.m21 * two.m22 + one.m31 * two.m23;
-    mat.m22 = one.m02 * two.m20 + one.m12 * two.m21 + one.m22 * two.m22 + one.m32 * two.m23;
-    mat.m23 = one.m03 * two.m20 + one.m13 * two.m21 + one.m23 * two.m22 + one.m33 * two.m23;
-    mat.m30 = one.m00 * two.m30 + one.m10 * two.m31 + one.m20 * two.m32 + one.m30 * two.m33;
-    mat.m31 = one.m01 * two.m30 + one.m11 * two.m31 + one.m21 * two.m32 + one.m31 * two.m33;
-    mat.m32 = one.m02 * two.m30 + one.m12 * two.m31 + one.m22 * two.m32 + one.m32 * two.m33;
-    mat.m33 = one.m03 * two.m30 + one.m13 * two.m31 + one.m23 * two.m32 + one.m33 * two.m33;
+	Mat4 mat = one;
+
+    mat.m00 = mat.m00 * two.m00 + mat.m10 * two.m01 + mat.m20 * two.m02 + mat.m30 * two.m03;
+    mat.m01 = mat.m01 * two.m00 + mat.m11 * two.m01 + mat.m21 * two.m02 + mat.m31 * two.m03;
+    mat.m02 = mat.m02 * two.m00 + mat.m12 * two.m01 + mat.m22 * two.m02 + mat.m32 * two.m03;
+    mat.m03 = mat.m03 * two.m00 + mat.m13 * two.m01 + mat.m23 * two.m02 + mat.m33 * two.m03;
+    mat.m10 = mat.m00 * two.m10 + mat.m10 * two.m11 + mat.m20 * two.m12 + mat.m30 * two.m13;
+    mat.m11 = mat.m01 * two.m10 + mat.m11 * two.m11 + mat.m21 * two.m12 + mat.m31 * two.m13;
+    mat.m12 = mat.m02 * two.m10 + mat.m12 * two.m11 + mat.m22 * two.m12 + mat.m32 * two.m13;
+    mat.m13 = mat.m03 * two.m10 + mat.m13 * two.m11 + mat.m23 * two.m12 + mat.m33 * two.m13;
+    mat.m20 = mat.m00 * two.m20 + mat.m10 * two.m21 + mat.m20 * two.m22 + mat.m30 * two.m23;
+    mat.m21 = mat.m01 * two.m20 + mat.m11 * two.m21 + mat.m21 * two.m22 + mat.m31 * two.m23;
+    mat.m22 = mat.m02 * two.m20 + mat.m12 * two.m21 + mat.m22 * two.m22 + mat.m32 * two.m23;
+    mat.m23 = mat.m03 * two.m20 + mat.m13 * two.m21 + mat.m23 * two.m22 + mat.m33 * two.m23;
+    mat.m30 = mat.m00 * two.m30 + mat.m10 * two.m31 + mat.m20 * two.m32 + mat.m30 * two.m33;
+    mat.m31 = mat.m01 * two.m30 + mat.m11 * two.m31 + mat.m21 * two.m32 + mat.m31 * two.m33;
+    mat.m32 = mat.m02 * two.m30 + mat.m12 * two.m31 + mat.m22 * two.m32 + mat.m32 * two.m33;
+    mat.m33 = mat.m03 * two.m30 + mat.m13 * two.m31 + mat.m23 * two.m32 + mat.m33 * two.m33;
 
 	return mat;
 }
