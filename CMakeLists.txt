@@ -3,7 +3,7 @@ project(Math)
 
 set(CMAKE_CXX_STANDARD 20)
 
-file(GLOB_RECURSE SOURCE_FILES "Math/*.cpp" "Math/*.h")
+file(GLOB_RECURSE SOURCE_FILES "Math/*.h")
 
 set(dir ${CMAKE_CURRENT_SOURCE_DIR})
 
