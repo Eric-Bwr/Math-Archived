@@ -125,6 +125,27 @@ public:
         }
         return result.norm();
     }
+    Quat<T> slerp(Quat<T> const &a, T blend){
+        Quat<T> result = a;
+        T dot = x * a.x + y * a.y + z * a.z + w * a.w;
+        if(dot < 0.0){
+            result = a.negate();
+            dot = -dot;
+        }
+        if(dot > 1.0 - std::numeric_limits<float>::epsilon()){
+            result = interpolate(a, blend);
+        }else{
+            T angle = std::acos(dot);
+            T angleSin = std::sin(angle);
+            T angleOneMinus = std::sin((1.0 - blend) * angle;
+            T angleBlend = std::sin(blend * angle);
+            result.x = (angleOneMinus * x + angleBlend * result.x) / angleSin;
+            result.y = (angleOneMinus * y + angleBlend * result.y) / angleSin;
+            result.z = (angleOneMinus * z + angleBlend * result.z) / angleSin;
+            result.w = (angleOneMinus * w + angleBlend * result.w) / angleSin;
+        }
+        return result;
+    }
     Mat4<T> toMat4(){
         Mat4<T> result;
         T xy = x * y;
