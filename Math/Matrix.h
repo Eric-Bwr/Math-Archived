@@ -5,24 +5,34 @@
 #include "Vector.h"
 
 template<typename T = float>
+class Mat3 {
+public:
+    T m00 = 0.0, m01 = 0.0, m02 = 0.0;
+    T m10 = 0.0, m11 = 0.0, m12 = 0.0;
+    T m20 = 0.0, m21 = 0.0, m22 = 0.0;
+
+    Mat3() = default;
+    explicit Mat3(T v){
+        m00 = v;
+        m11 = v;
+        m22 = v;
+    }
+
+    Mat3<T> &identity(){
+        m00 = 1.0;
+        m11 = 1.0;
+        m22 = 1.0;
+        return *this;
+    }
+};
+
+template<typename T = float>
 class Mat4 {
 public:
-    T m00 = 0.0;
-    T m01 = 0.0;
-    T m02 = 0.0;
-    T m03 = 0.0;
-    T m10 = 0.0;
-    T m11 = 0.0;
-    T m12 = 0.0;
-    T m13 = 0.0;
-    T m20 = 0.0;
-    T m21 = 0.0;
-    T m22 = 0.0;
-    T m23 = 0.0;
-    T m30 = 0.0;
-    T m31 = 0.0;
-    T m32 = 0.0;
-    T m33 = 0.0;
+    T m00 = 0.0, m01 = 0.0, m02 = 0.0, m03 = 0.0;
+    T m10 = 0.0, m11 = 0.0, m12 = 0.0, m13 = 0.0;
+    T m20 = 0.0, m21 = 0.0, m22 = 0.0, m23 = 0.0;
+    T m30 = 0.0, m31 = 0.0, m32 = 0.0, m33 = 0.0;
 
     Mat4() = default;
     explicit Mat4(T v){
@@ -31,24 +41,24 @@ public:
         m22 = v;
         m33 = v;
     }
-    Mat4 &identity(){
+
+    Mat4<T> &identity(){
         m00 = 1.0;
         m11 = 1.0;
         m22 = 1.0;
         m33 = 1.0;
         return *this;
     }
-    Mat4 &translate(T x, T y, T z) {
+    Mat4<T> &translate(T x, T y, T z) {
         m30 = m00 * x + m10 * y + m20 * z;
         m31 = m01 * x + m11 * y + m21 * z;
         m32 = m02 * x + m12 * y + m22 * z;
-
         return *this;
     }
-    Mat4 &translate(const Vec3<T> &vector){
+    Mat4<T> &translate(const Vec3<T> &vector){
         return translate(vector.x, vector.y, vector.z);
     }
-    Mat4 &rotate(T angle, T x, T y, T z){
+    Mat4<T> &rotate(T angle, T x, T y, T z){
         T angleRadians = angle * RADIANS;
         T c = std::cos(angleRadians);
         T s = std::sin(angleRadians);
@@ -94,10 +104,10 @@ public:
         m23 = e12;
         return *this;
     }
-    Mat4 &rotate(T angle, const Vec3<T> &axis){
+    Mat4<T> &rotate(T angle, const Vec3<T> &axis){
         return rotate(angle, axis.x, axis.y, axis.z);
     }
-    Mat4 &scale(T x, T y, T z){
+    Mat4<T> &scale(T x, T y, T z){
         m00 *= x;
         m01 *= x;
         m02 *= x;
@@ -112,13 +122,13 @@ public:
         m23 *= z;
         return *this;
     }
-    Mat4 &scale(T s){
+    Mat4<T> &scale(T s){
         return scale(s, s, s);
     }
-    Mat4 &scale(const Vec3<T> &vector){
+    Mat4<T> &scale(const Vec3<T> &vector){
         return scale(vector.x, vector.y, vector.z);
     }
-    Mat4 &multiply(const Mat4& one, const Mat4& two){
+    Mat4<T> &multiply(const Mat4<T>& one, const Mat4<T>& two){
         m00 = one.m00 * two.m00 + one.m10 * two.m01 + one.m20 * two.m02 + one.m30 * two.m03;
         m01 = one.m01 * two.m00 + one.m11 * two.m01 + one.m21 * two.m02 + one.m31 * two.m03;
         m02 = one.m02 * two.m00 + one.m12 * two.m01 + one.m22 * two.m02 + one.m32 * two.m03;
@@ -135,10 +145,9 @@ public:
         m31 = one.m01 * two.m30 + one.m11 * two.m31 + one.m21 * two.m32 + one.m31 * two.m33;
         m32 = one.m02 * two.m30 + one.m12 * two.m31 + one.m22 * two.m32 + one.m32 * two.m33;
         m33 = one.m03 * two.m30 + one.m13 * two.m31 + one.m23 * two.m32 + one.m33 * two.m33;
-
         return *this;
     }
-    Mat4 &multiply(const Mat4& matrix){
+    Mat4<T> &multiply(const Mat4<T>& matrix){
         return multiply(*this, matrix);
     }
     T determinant3x3(T t00, T t01, T t02, T t10, T t11, T t12, T t20, T t21, T t22) {
@@ -146,7 +155,7 @@ public:
                  + t01 * (t12 * t20 - t10 * t22)
                  + t02 * (t10 * t21 - t11 * t20);
     }
-    Mat4 &invert(){
+    Mat4<T> &invert(){
         T f = m00 * ((m11 * m22 * m33 + m12 * m23 * m31 + m13 * m21 * m32)
                      - m13 * m22 * m31- m11 * m23 * m32- m12 * m21 * m33);
         f -= m01 * ((m10 * m22 * m33 + m12 * m23 * m30 + m13 * m20 * m32)
@@ -193,16 +202,15 @@ public:
         m31 = t13 * determinant_inv;
         m32 = t23 * determinant_inv;
         m23 = t32 * determinant_inv;
-
         return *this;
     }
-    Mat4 &removeTranslation(){
+    Mat4<T> &removeTranslation(){
         m30 = 0.0;
         m31 = 0.0;
         m32 = 0.0;
         return *this;
     }
-    Mat4 &orthographic(T left, T right, T bottom, T top, T near, T far){
+    Mat4<T> &orthographic(T left, T right, T bottom, T top, T near, T far){
         m00 = 2.0 / (right - left);
         m11 = 2.0 / (top - bottom);
         m22 = 2.0 / (near - far);
@@ -210,10 +218,9 @@ public:
         m30 = (left + right) / (left - right);
         m31 = (bottom + top) / (bottom - top);
         m32 = (far + near) / (far - near);
-
         return *this;
     }
-    Mat4 &perspective(T fov, T width, T height, T near, T far){
+    Mat4<T> &perspective(T fov, T width, T height, T near, T far){
         T aspectRatio = width / height;
         T yScale = std::tan(fov / 2.0 * RADIANS);
 
@@ -222,13 +229,12 @@ public:
         m22 = far / (near - far);
         m23 = -1.0;
         m32 = -(far * near) / (far - near);
-
         return *this;
     }
-    Mat4 &lookAt(const Vec3<T> &eye, const Vec3<T> &center, const Vec3<T> &up){
-        Vec3 f = (center - eye).norm();
-        Vec3 s = (f.cross(up)).norm();
-        Vec3 u = s.cross(f);
+    Mat4<T> &lookAt(const Vec3<T> &eye, const Vec3<T> &center, const Vec3<T> &up){
+        Vec3<T> f = (center - eye).norm();
+        Vec3<T> s = (f.cross(up)).norm();
+        Vec3<T> u = s.cross(f);
 
         m00 = s.x;
         m10 = s.y;
@@ -242,14 +248,34 @@ public:
         m30 =-s.dot(eye);
         m31 =-u.dot(eye);
         m32 = f.dot(eye);
-
         return *this;
+    }
+    Mat3<T> &toMat3(){
+        Mat3<T> result;
+        result.m00 = m00;
+        result.m01 = m01;
+        result.m02 = m02;
+        result.m10 = m10;
+        result.m11 = m11;
+        result.m12 = m12;
+        result.m20 = m20;
+        result.m21 = m21;
+        result.m22 = m22;
+        return result;
+    }
+
+    friend Mat4<T> operator* (const Mat4<T> &a, const Mat4<T> &b) {
+        Mat4<T> result;
+        return result.multiply(a, b);
     }
 
     char *toString() {
         const char *mt = "|%+6.2f %+6.2f %+6.2f %+6.2f|\n|%+6.2f %+6.2f %+6.2f %+6.2f|\n|%+6.2f %+6.2f %+6.2f %+6.2f|\n|%+6.2f %+6.2f %+6.2f %+6.2f|\n";
         char *s = (char *) malloc(sizeof(char) * 128);
-        std::sprintf(s, mt, m00, m10, m20, m30, m01, m11, m21, m31, m02, m12, m22, m32, m03, m13, m23, m33);
+        std::sprintf(s, mt, m00, m01, m02, m03
+                , m10, m11, m12, m13
+                , m20, m21, m22, m23
+                , m30, m31, m32, m33);
         return s;
     }
     const T* getBuffer() const {
@@ -339,6 +365,10 @@ Mat4<T> lookAtMatrix(const Vec3<T> &eye, const Vec3<T> &center, const Vec3<T> &u
 
     return mat;
 }
+
+typedef Mat3<int> Mat3i;
+typedef Mat3<float> Mat3f;
+typedef Mat3<double> Mat3d;
 
 typedef Mat4<int> Mat4i;
 typedef Mat4<float> Mat4f;

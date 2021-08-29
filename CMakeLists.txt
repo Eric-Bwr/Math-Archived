@@ -9,4 +9,4 @@ set(dir ${CMAKE_CURRENT_SOURCE_DIR})
 
 include_directories(${PROJECT_NAME})
 
-add_library(${PROJECT_NAME} ${SOURCE_FILES})
+add_library(${PROJECT_NAME} ${SOURCE_FILES} Math/Quaternion.h)
