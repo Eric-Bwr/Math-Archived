@@ -18,7 +18,7 @@ public:
         m22 = v;
     }
 
-    Mat3<T> &identity(){
+    Mat3<T> identity(){
         m00 = 1.0;
         m11 = 1.0;
         m22 = 1.0;
@@ -42,23 +42,23 @@ public:
         m33 = v;
     }
 
-    Mat4<T> &identity(){
+    Mat4<T> identity(){
         m00 = 1.0;
         m11 = 1.0;
         m22 = 1.0;
         m33 = 1.0;
         return *this;
     }
-    Mat4<T> &translate(T x, T y, T z) {
+    Mat4<T> translate(T x, T y, T z) {
         m30 = m00 * x + m10 * y + m20 * z;
         m31 = m01 * x + m11 * y + m21 * z;
         m32 = m02 * x + m12 * y + m22 * z;
         return *this;
     }
-    Mat4<T> &translate(const Vec3<T> &vector){
+    Mat4<T> translate(const Vec3<T> &vector){
         return translate(vector.x, vector.y, vector.z);
     }
-    Mat4<T> &rotate(T angle, T x, T y, T z){
+    Mat4<T> rotate(T angle, T x, T y, T z){
         T angleRadians = angle * RADIANS;
         T c = std::cos(angleRadians);
         T s = std::sin(angleRadians);
@@ -104,10 +104,10 @@ public:
         m23 = e12;
         return *this;
     }
-    Mat4<T> &rotate(T angle, const Vec3<T> &axis){
+    Mat4<T> rotate(T angle, const Vec3<T> &axis){
         return rotate(angle, axis.x, axis.y, axis.z);
     }
-    Mat4<T> &scale(T x, T y, T z){
+    Mat4<T> scale(T x, T y, T z){
         m00 *= x;
         m01 *= x;
         m02 *= x;
@@ -122,13 +122,13 @@ public:
         m23 *= z;
         return *this;
     }
-    Mat4<T> &scale(T s){
+    Mat4<T> scale(T s){
         return scale(s, s, s);
     }
-    Mat4<T> &scale(const Vec3<T> &vector){
+    Mat4<T> scale(const Vec3<T> &vector){
         return scale(vector.x, vector.y, vector.z);
     }
-    Mat4<T> &multiply(const Mat4<T>& one, const Mat4<T>& two){
+    Mat4<T> multiply(const Mat4<T>& one, const Mat4<T>& two){
         m00 = one.m00 * two.m00 + one.m10 * two.m01 + one.m20 * two.m02 + one.m30 * two.m03;
         m01 = one.m01 * two.m00 + one.m11 * two.m01 + one.m21 * two.m02 + one.m31 * two.m03;
         m02 = one.m02 * two.m00 + one.m12 * two.m01 + one.m22 * two.m02 + one.m32 * two.m03;
@@ -147,7 +147,7 @@ public:
         m33 = one.m03 * two.m30 + one.m13 * two.m31 + one.m23 * two.m32 + one.m33 * two.m33;
         return *this;
     }
-    Mat4<T> &multiply(const Mat4<T>& matrix){
+    Mat4<T> multiply(const Mat4<T>& matrix){
         return multiply(*this, matrix);
     }
     T determinant3x3(T t00, T t01, T t02, T t10, T t11, T t12, T t20, T t21, T t22) {
@@ -155,7 +155,7 @@ public:
                  + t01 * (t12 * t20 - t10 * t22)
                  + t02 * (t10 * t21 - t11 * t20);
     }
-    Mat4<T> &invert(){
+    Mat4<T> invert(){
         T f = m00 * ((m11 * m22 * m33 + m12 * m23 * m31 + m13 * m21 * m32)
                      - m13 * m22 * m31- m11 * m23 * m32- m12 * m21 * m33);
         f -= m01 * ((m10 * m22 * m33 + m12 * m23 * m30 + m13 * m20 * m32)
@@ -204,13 +204,13 @@ public:
         m23 = t32 * determinant_inv;
         return *this;
     }
-    Mat4<T> &removeTranslation(){
+    Mat4<T> removeTranslation(){
         m30 = 0.0;
         m31 = 0.0;
         m32 = 0.0;
         return *this;
     }
-    Mat4<T> &orthographic(T left, T right, T bottom, T top, T near, T far){
+    Mat4<T> orthographic(T left, T right, T bottom, T top, T near, T far){
         m00 = 2.0 / (right - left);
         m11 = 2.0 / (top - bottom);
         m22 = 2.0 / (near - far);
@@ -220,7 +220,7 @@ public:
         m32 = (far + near) / (far - near);
         return *this;
     }
-    Mat4<T> &perspective(T fov, T width, T height, T near, T far){
+    Mat4<T> perspective(T fov, T width, T height, T near, T far){
         T aspectRatio = width / height;
         T yScale = std::tan(fov / 2.0 * RADIANS);
 
@@ -231,7 +231,7 @@ public:
         m32 = -(far * near) / (far - near);
         return *this;
     }
-    Mat4<T> &lookAt(const Vec3<T> &eye, const Vec3<T> &center, const Vec3<T> &up){
+    Mat4<T> lookAt(const Vec3<T> &eye, const Vec3<T> &center, const Vec3<T> &up){
         Vec3<T> f = (center - eye).norm();
         Vec3<T> s = (f.cross(up)).norm();
         Vec3<T> u = s.cross(f);
@@ -250,7 +250,7 @@ public:
         m32 = f.dot(eye);
         return *this;
     }
-    Mat3<T> &toMat3(){
+    Mat3<T> toMat3(){
         Mat3<T> result;
         result.m00 = m00;
         result.m01 = m01;
@@ -324,22 +324,22 @@ template<typename T = float>
 Mat4<T> multiplyMatrix(const Mat4<T>& one, const Mat4<T>& two){
     Mat4<T> mat = one;
 
-    mat.m00 = mat.m00 * two.m00 + mat.m10 * two.m01 + mat.m20 * two.m02 + mat.m30 * two.m03;
-    mat.m01 = mat.m01 * two.m00 + mat.m11 * two.m01 + mat.m21 * two.m02 + mat.m31 * two.m03;
-    mat.m02 = mat.m02 * two.m00 + mat.m12 * two.m01 + mat.m22 * two.m02 + mat.m32 * two.m03;
-    mat.m03 = mat.m03 * two.m00 + mat.m13 * two.m01 + mat.m23 * two.m02 + mat.m33 * two.m03;
-    mat.m10 = mat.m00 * two.m10 + mat.m10 * two.m11 + mat.m20 * two.m12 + mat.m30 * two.m13;
-    mat.m11 = mat.m01 * two.m10 + mat.m11 * two.m11 + mat.m21 * two.m12 + mat.m31 * two.m13;
-    mat.m12 = mat.m02 * two.m10 + mat.m12 * two.m11 + mat.m22 * two.m12 + mat.m32 * two.m13;
-    mat.m13 = mat.m03 * two.m10 + mat.m13 * two.m11 + mat.m23 * two.m12 + mat.m33 * two.m13;
-    mat.m20 = mat.m00 * two.m20 + mat.m10 * two.m21 + mat.m20 * two.m22 + mat.m30 * two.m23;
-    mat.m21 = mat.m01 * two.m20 + mat.m11 * two.m21 + mat.m21 * two.m22 + mat.m31 * two.m23;
-    mat.m22 = mat.m02 * two.m20 + mat.m12 * two.m21 + mat.m22 * two.m22 + mat.m32 * two.m23;
-    mat.m23 = mat.m03 * two.m20 + mat.m13 * two.m21 + mat.m23 * two.m22 + mat.m33 * two.m23;
-    mat.m30 = mat.m00 * two.m30 + mat.m10 * two.m31 + mat.m20 * two.m32 + mat.m30 * two.m33;
-    mat.m31 = mat.m01 * two.m30 + mat.m11 * two.m31 + mat.m21 * two.m32 + mat.m31 * two.m33;
-    mat.m32 = mat.m02 * two.m30 + mat.m12 * two.m31 + mat.m22 * two.m32 + mat.m32 * two.m33;
-    mat.m33 = mat.m03 * two.m30 + mat.m13 * two.m31 + mat.m23 * two.m32 + mat.m33 * two.m33;
+    mat.m00 = one.m00 * two.m00 + one.m10 * two.m01 + one.m20 * two.m02 + one.m30 * two.m03;
+    mat.m01 = one.m01 * two.m00 + one.m11 * two.m01 + one.m21 * two.m02 + one.m31 * two.m03;
+    mat.m02 = one.m02 * two.m00 + one.m12 * two.m01 + one.m22 * two.m02 + one.m32 * two.m03;
+    mat.m03 = one.m03 * two.m00 + one.m13 * two.m01 + one.m23 * two.m02 + one.m33 * two.m03;
+    mat.m10 = one.m00 * two.m10 + one.m10 * two.m11 + one.m20 * two.m12 + one.m30 * two.m13;
+    mat.m11 = one.m01 * two.m10 + one.m11 * two.m11 + one.m21 * two.m12 + one.m31 * two.m13;
+    mat.m12 = one.m02 * two.m10 + one.m12 * two.m11 + one.m22 * two.m12 + one.m32 * two.m13;
+    mat.m13 = one.m03 * two.m10 + one.m13 * two.m11 + one.m23 * two.m12 + one.m33 * two.m13;
+    mat.m20 = one.m00 * two.m20 + one.m10 * two.m21 + one.m20 * two.m22 + one.m30 * two.m23;
+    mat.m21 = one.m01 * two.m20 + one.m11 * two.m21 + one.m21 * two.m22 + one.m31 * two.m23;
+    mat.m22 = one.m02 * two.m20 + one.m12 * two.m21 + one.m22 * two.m22 + one.m32 * two.m23;
+    mat.m23 = one.m03 * two.m20 + one.m13 * two.m21 + one.m23 * two.m22 + one.m33 * two.m23;
+    mat.m30 = one.m00 * two.m30 + one.m10 * two.m31 + one.m20 * two.m32 + one.m30 * two.m33;
+    mat.m31 = one.m01 * two.m30 + one.m11 * two.m31 + one.m21 * two.m32 + one.m31 * two.m33;
+    mat.m32 = one.m02 * two.m30 + one.m12 * two.m31 + one.m22 * two.m32 + one.m32 * two.m33;
+    mat.m33 = one.m03 * two.m30 + one.m13 * two.m31 + one.m23 * two.m32 + one.m33 * two.m33;
 
     return mat;
 }
