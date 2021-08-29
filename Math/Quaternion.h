@@ -137,7 +137,7 @@ public:
         }else{
             T angle = std::acos(dot);
             T angleSin = std::sin(angle);
-            T angleOneMinus = std::sin((1.0 - blend) * angle;
+            T angleOneMinus = std::sin(1.0 - blend) * angle;
             T angleBlend = std::sin(blend * angle);
             result.x = (angleOneMinus * x + angleBlend * result.x) / angleSin;
             result.y = (angleOneMinus * y + angleBlend * result.y) / angleSin;
