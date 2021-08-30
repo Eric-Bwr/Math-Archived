@@ -1,7 +1,6 @@
 #pragma once
 
 #include <cstdio>
-#include <cmath>
 #include "Vector.h"
 
 template<typename T = float>

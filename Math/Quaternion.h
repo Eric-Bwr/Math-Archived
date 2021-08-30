@@ -89,14 +89,6 @@ public:
     Quat<T> scale(T scale) const {
         return Quat<T>(x * scale, y * scale, z * scale, w * scale);
     }
-    Quat<T> multiplyInverse(const Quat<T> &a, const Quat<T> &b) const{
-        T n = b.x * b.x + b.y * b.y + b.z * b.z + b.w * b.w;
-        n = n == 0.0 ? n : 1 / n;
-        return Quat<T>((a.x * b.w - a.w * b.x - a.y * b.z + a.z * b.y) * n,
-                       (a.y * b.w - a.w * b.y - a.z * b.x + a.x * b.z) * n,
-                       (a.z * b.w - a.w * b.z - a.x * b.y + a.y * b.x) * n,
-                       (a.w * b.w + a.x * b.x + a.y * b.y + a.z * b.z) * n);
-    }
     Quat<T> convertAxisAngles() const{
         T len = std::sqrt(x * x + y * y + z * z);
         if(len == 0.0)
@@ -125,20 +117,24 @@ public:
         }
         return result.norm();
     }
-    Quat<T> slerp(Quat<T> const &a, T blend){
-        Quat<T> result = a;
-        T dot = x * a.x + y * a.y + z * a.z + w * a.w;
-        if(dot < 0.0){
+    Quat<float> slerp(Quat<float> const &a, float blend){
+        Quat<float> result = a;
+        float dot = x * a.x + y * a.y + z * a.z + w * a.w;
+        float oneMinusBlend = 1.0f - blend;
+        if(dot < 0.0f){
             result = a.negate();
             dot = -dot;
         }
-        if(dot > 1.0 - std::numeric_limits<float>::epsilon()){
-            result = interpolate(a, blend);
+        if(dot > 1.0f - std::numeric_limits<float>::epsilon()){
+            result.x = x * oneMinusBlend + result.x * blend;
+            result.y = y * oneMinusBlend + result.y * blend;
+            result.z = z * oneMinusBlend + result.z * blend;
+            result.w = w * oneMinusBlend + result.w * blend;
         }else{
-            T angle = std::acos(dot);
-            T angleSin = std::sin(angle);
-            T angleOneMinus = std::sin(1.0 - blend) * angle;
-            T angleBlend = std::sin(blend * angle);
+            float angle = std::acos(dot);
+            float angleSin = std::sin(angle);
+            float angleOneMinus = std::sin(oneMinusBlend) * angle;
+            float angleBlend = std::sin(blend * angle);
             result.x = (angleOneMinus * x + angleBlend * result.x) / angleSin;
             result.y = (angleOneMinus * y + angleBlend * result.y) / angleSin;
             result.z = (angleOneMinus * z + angleBlend * result.z) / angleSin;
@@ -158,15 +154,15 @@ public:
         T ySquared = y * y;
         T zSquared = z * z;
         result.m00 = 1 - 2 * (ySquared + zSquared);
-        result.m01 = 2 * (xy - zw);
-        result.m02 = 2 * (xz + yw);
+        result.m01 = 2 * (xy + zw);
+        result.m02 = 2 * (xz - yw);
         result.m03 = 0;
-        result.m10 = 2 * (xy + zw);
+        result.m10 = 2 * (xy - zw);
         result.m11 = 1 - 2 * (xSquared + zSquared);
-        result.m12 = 2 * (yz - xw);
+        result.m12 = 2 * (yz + xw);
         result.m13 = 0;
-        result.m20 = 2 * (xz - yw);
-        result.m21 = 2 * (yz + xw);
+        result.m20 = 2 * (xz + yw);
+        result.m21 = 2 * (yz - xw);
         result.m22 = 1 - 2 * (xSquared + ySquared);
         result.m23 = 0;
         result.m30 = 0;
