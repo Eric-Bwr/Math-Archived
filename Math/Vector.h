@@ -176,6 +176,13 @@ public:
         return x != a.x || y != a.y || z != a.z;
     }
 
+    Vec3<T> lerp(Vec3<T> const &a, T t) const{
+        T oneMinusT = (1 - t);
+        T xx = x * oneMinusT + a.x * t;
+        T yy = y * oneMinusT + a.y * t;
+        T zz = z * oneMinusT + a.z * t;
+        return Vec3<T>(xx, yy, zz);
+    }
     Vec3<T> cross(Vec3<T> const &a) const{
         T xx = y * a.z - a.y * z;
         T yy = z * a.x - a.z * x;

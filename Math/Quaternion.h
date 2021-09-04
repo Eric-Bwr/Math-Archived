@@ -100,7 +100,7 @@ public:
         w *= s;
         w = std::cos(halfW);
     }
-    Quat<T> interpolate(const Quat<T> &a, T blend){
+    Quat<T> lerp(const Quat<T> &a, T blend){
         Quat<T> result;
         T dot = x * a.x + y * a.y + z * a.z + w * a.w;
         T oneMinusBlend = 1.0 - blend;
@@ -115,7 +115,7 @@ public:
             result.z = oneMinusBlend * z + blend * a.z;
             result.w = oneMinusBlend * w + blend * a.w;
         }
-        return result.norm();
+        return result;
     }
     Quat<float> slerp(Quat<float> const &a, float blend){
         Quat<float> result = a;
