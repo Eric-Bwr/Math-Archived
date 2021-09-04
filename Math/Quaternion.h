@@ -185,6 +185,13 @@ public:
     bool operator!= (Quat<T> & a) const{
         return x != a.x || y != a.y || z != a.z || w != a.w;
     }
+
+    char *toString() {
+        const char *mt = "%+6.2f %+6.2f %+6.2f %+6.2f\n";
+        char *s = (char *) malloc(sizeof(char) * 32);
+        std::sprintf(s, mt, x, y, z, w);
+        return s;
+    }
 };
 
 typedef Quat<float> Quatf;

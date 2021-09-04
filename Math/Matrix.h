@@ -271,7 +271,8 @@ public:
     char *toString() {
         const char *mt = "|%+6.2f %+6.2f %+6.2f %+6.2f|\n|%+6.2f %+6.2f %+6.2f %+6.2f|\n|%+6.2f %+6.2f %+6.2f %+6.2f|\n|%+6.2f %+6.2f %+6.2f %+6.2f|\n";
         char *s = (char *) malloc(sizeof(char) * 128);
-        std::sprintf(s, mt, m00, m01, m02, m03
+        std::sprintf(s, mt,
+                     m00, m01, m02, m03
                 , m10, m11, m12, m13
                 , m20, m21, m22, m23
                 , m30, m31, m32, m33);

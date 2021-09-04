@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstdio>
 #include <cmath>
 
 #ifndef RADIANS
@@ -85,6 +86,13 @@ public:
     }
     T len2() const{
         return x * x + y * y;
+    }
+
+    char *toString() {
+        const char *mt = "%+6.2f %+6.2f\n";
+        char *s = (char *) malloc(sizeof(char) * 16);
+        std::sprintf(s, mt, x, y);
+        return s;
     }
 };
 
@@ -205,6 +213,13 @@ public:
     T len2() const{
         return x * x + y * y + z * z;
     }
+
+    char *toString() {
+        const char *mt = "%+6.2f %+6.2f %+6.2f\n";
+        char *s = (char *) malloc(sizeof(char) * 24);
+        std::sprintf(s, mt, x, y, z);
+        return s;
+    }
 };
 
 template<typename T = float>
@@ -278,6 +293,13 @@ public:
     }
     bool operator!= (Vec4<T> &a) const{
         return x != a.x || y != a.y || z != a.z || w != a.w;
+    }
+
+    char *toString() {
+        const char *mt = "%+6.2f %+6.2f %+6.2f %+6.2f\n";
+        char *s = (char *) malloc(sizeof(char) * 32);
+        std::sprintf(s, mt, x, y, z, w);
+        return s;
     }
 };
 
