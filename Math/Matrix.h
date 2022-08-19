@@ -249,6 +249,25 @@ public:
         m32 = f.dot(eye);
         return *this;
     }
+    Mat4<T> lookAtO(const Vec3<T> &eye, const Vec3<T> &center, const Vec3<T> &up){
+        Vec3<T> f = center.norm();
+        Vec3<T> s = (f.cross(up)).norm();
+        Vec3<T> u = s.cross(f);
+
+        m00 = s.x;
+        m10 = s.y;
+        m20 = s.z;
+        m01 = u.x;
+        m11 = u.y;
+        m21 = u.z;
+        m02 =-f.x;
+        m12 =-f.y;
+        m22 =-f.z;
+        m30 =-s.dot(eye);
+        m31 =-u.dot(eye);
+        m32 = f.dot(eye);
+        return *this;
+    }
     Mat3<T> toMat3(){
         Mat3<T> result;
         result.m00 = m00;
@@ -364,6 +383,50 @@ Mat4<T> lookAtMatrix(const Vec3<T> &eye, const Vec3<T> &center, const Vec3<T> &u
     mat.m32 = f.dot(eye);
 
     return mat;
+}
+
+template<typename T = float>
+Mat4<float> toFloat(Mat4<T> matrix){
+    Mat4<float> result;
+    result.m00 = (float)matrix.m00;
+    result.m01 = (float)matrix.m01;
+    result.m02 = (float)matrix.m02;
+    result.m03 = (float)matrix.m03;
+    result.m10 = (float)matrix.m10;
+    result.m11 = (float)matrix.m11;
+    result.m12 = (float)matrix.m12;
+    result.m13 = (float)matrix.m13;
+    result.m20 = (float)matrix.m20;
+    result.m21 = (float)matrix.m21;
+    result.m22 = (float)matrix.m22;
+    result.m23 = (float)matrix.m23;
+    result.m30 = (float)matrix.m30;
+    result.m31 = (float)matrix.m31;
+    result.m32 = (float)matrix.m32;
+    result.m33 = (float)matrix.m33;
+    return result;
+}
+
+template<typename T = float>
+Mat4<double> toDouble(Mat4<T> matrix){
+    Mat4<double> result;
+    result.m00 = (double)matrix.m00;
+    result.m01 = (double)matrix.m01;
+    result.m02 = (double)matrix.m02;
+    result.m03 = (double)matrix.m03;
+    result.m10 = (double)matrix.m10;
+    result.m11 = (double)matrix.m11;
+    result.m12 = (double)matrix.m12;
+    result.m13 = (double)matrix.m13;
+    result.m20 = (double)matrix.m20;
+    result.m21 = (double)matrix.m21;
+    result.m22 = (double)matrix.m22;
+    result.m23 = (double)matrix.m23;
+    result.m30 = (double)matrix.m30;
+    result.m31 = (double)matrix.m31;
+    result.m32 = (double)matrix.m32;
+    result.m33 = (double)matrix.m33;
+    return result;
 }
 
 typedef Mat3<int> Mat3i;
