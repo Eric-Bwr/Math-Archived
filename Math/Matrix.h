@@ -384,9 +384,9 @@ Mat4<T> multiplyMatrix(const Mat4<T>& one, const Mat4<T>& two){
 template<typename T = float>
 Mat4<T> lookAtMatrix(const Vec3<T> &eye, const Vec3<T> &center, const Vec3<T> &up){
     Mat4<T> mat = identityMatrix();
-    Vec3 f = (center - eye).norm();
-    Vec3 s = (f.cross(up)).norm();
-    Vec3 u = s.cross(f);
+    Vec3<T> f = (center - eye).norm();
+    Vec3<T> s = (f.cross(up)).norm();
+    Vec3<T> u = s.cross(f);
 
     mat.m00 = s.x;
     mat.m10 = s.y;
