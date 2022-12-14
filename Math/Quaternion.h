@@ -142,6 +142,22 @@ public:
         }
         return result;
     }
+    Quat<T> fromEuler(T roll, T pitch, T yaw){
+        double rollHalf = roll * 0.5;
+        double pitchHalf = pitch * 0.5;
+        double yawHalf = yaw * 0.5;
+        double cr = cos(rollHalf);
+        double sr = sin(rollHalf);
+        double cp = cos(pitchHalf);
+        double sp = sin(pitchHalf);
+        double cy = cos(yawHalf);
+        double sy = sin(yawHalf);
+        w = cr * cp * cy + sr * sp * sy;
+        x = sr * cp * cy - cr * sp * sy;
+        y = cr * sp * cy + sr * cp * sy;
+        z = cr * cp * sy - sr * sp * cy;
+        return *this;
+    }
     Mat4<T> toMat4(){
         Mat4<T> result;
         T xy = x * y;
