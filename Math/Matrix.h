@@ -3,6 +3,15 @@
 #include <cstdio>
 #include "Vector.h"
 
+#ifdef WIN32
+#ifdef near
+#undef near
+#endif
+#ifdef far
+#undef far
+#endif
+#endif
+
 template<typename T = float>
 class Mat3 {
 public:
